@@ -3,6 +3,7 @@ import 'package:hrms/screens/forgot_password.dart';
 import 'package:hrms/screens/sign_up.dart';
 
 import '../constants/text_field_decoration.dart';
+import 'home.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -12,6 +13,9 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+
+  String rollSelect = 'Employee';
+
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
@@ -116,9 +120,19 @@ class _SignInState extends State<SignIn> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 30,
+
+                  DropdownButton<String>(
+                    value: rollSelect,
+                    items: ['Employee','HR','Admin']
+                        .map((role) => DropdownMenuItem(
+                      value: role,
+                      child: Text(role),
+                    )).toList(),
+                    onChanged: (value) => setState(() {
+                      rollSelect = value!;
+                    }),
                   ),
+
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueAccent,
@@ -126,7 +140,7 @@ class _SignInState extends State<SignIn> {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                     ),
                     onPressed: () {
-
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                     },
                     child: Text(
                       'Sign In',

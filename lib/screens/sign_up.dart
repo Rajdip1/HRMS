@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms/constants/text_field_decoration.dart';
+import 'package:hrms/screens/home.dart';
 import 'package:hrms/screens/sign_in.dart';
 
 class SignUp extends StatefulWidget {
@@ -10,6 +11,8 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  String rollSelect = 'Employee';
+  
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
 
@@ -82,6 +85,21 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(
                       height: 10,
                     ),
+
+                    DropdownButton<String>(
+                      value: rollSelect,
+                      items: ['Employee','HR','Admin']
+                      .map((role) => DropdownMenuItem(
+                        value: role,
+                        child: Text(role),
+                      )).toList(),
+                      onChanged: (value) => setState(() {
+                        rollSelect = value!;
+                      }),
+                    ),
+
+                    SizedBox(height: 10.0,),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -119,7 +137,7 @@ class _SignUpState extends State<SignUp> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                       ),
                       onPressed: () {
-
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                       },
                       child: Text(
                         'Sign Up',
