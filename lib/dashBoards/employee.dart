@@ -10,6 +10,9 @@ class Employee extends StatefulWidget {
 class _EmployeeState extends State<Employee> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(),
+      body: Text('Employee profile'),
+    );
   }
 }

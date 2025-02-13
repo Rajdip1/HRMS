@@ -10,6 +10,9 @@ class Hr extends StatefulWidget {
 class _HrState extends State<Hr> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(),
+      body: Text('HR profile'),
+    );
   }
 }
