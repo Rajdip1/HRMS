@@ -1,6 +1,8 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms/screens/sign_up.dart';
+import 'package:hrms/services/auth_service.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -10,11 +12,32 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-
+  String email = '';
   TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
+
+  resetPassword() async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Password reset',
+          style: TextStyle(fontSize: 20.0),
+        ),
+      ));
+    } on FirebaseAuthException catch (e) {
+      if(e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+            'No user found for this email',
+            style: TextStyle(fontSize: 20.0),
+          ),
+        ));
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +82,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: TextFormField(
+                              controller: emailController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please Enter Email';
@@ -88,7 +112,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
                             ),
                             onPressed: () {
-
+                              if(_formKey.currentState!.validate()) {
+                                setState(() {
+                                  email = emailController.text;
+                                });
+                                resetPassword();
+                              }
                             },
                             child: Text(
                               'Reset',

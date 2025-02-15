@@ -5,6 +5,7 @@ import 'package:hrms/dashBoards/hr.dart';
 import 'package:hrms/screens/forgot_password.dart';
 import 'package:hrms/screens/sign_up.dart';
 import 'package:hrms/services/auth_service.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../constants/text_field_decoration.dart';
 import 'home.dart';
 
@@ -43,11 +44,11 @@ class _SignInState extends State<SignIn> {
     if(role=='Admin') {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Admin()));
     }
-    else if(role=='Employee') {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Employee()));
+    else if(role=='HR') {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Hr()));
     }
     else {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Hr()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Employee()));
     }
   }
 
@@ -154,7 +155,9 @@ class _SignInState extends State<SignIn> {
                         ),
                       ],
                     ),
-        
+
+                    SizedBox(height: 20,),
+
                     DropdownButton<String>(
                       value: rollSelect,
                       items: ['Employee','HR','Admin']
@@ -166,7 +169,9 @@ class _SignInState extends State<SignIn> {
                         rollSelect = value!;
                       }),
                     ),
-        
+
+                    SizedBox(height: 20,),
+
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueAccent,

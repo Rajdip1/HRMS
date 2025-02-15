@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hrms/dashBoards/admin.dart';
 import 'package:hrms/screens/home.dart';
 
 class AuthService {
@@ -19,7 +20,7 @@ class AuthService {
         'role': role
       });
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Admin()));
     }
     catch (e) {
       print(e);
@@ -43,4 +44,14 @@ class AuthService {
       print(e);
     }
   }
+
+  //Forgot password
+  // Future forgotPassword(String email) async {
+  //   try {
+  //     await auth.sendPasswordResetEmail(email: email);
+  //   }
+  //   catch (e) {
+  //     print(e);
+  //   }
+  // }
 }
