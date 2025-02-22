@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hrms/dashBoards/admin.dart';
 import 'package:hrms/screens/home.dart';
 
@@ -18,9 +19,19 @@ class AuthService {
       await firestore.collection("users").doc(uc.user?.uid).set({
         'email': email,
         'role': role
+      }).then((value) {
+        Fluttertoast.showToast(
+            msg: "Account is created successfully",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.blue,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
       });
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Admin()));
+
     }
     catch (e) {
       print(e);

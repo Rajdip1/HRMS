@@ -26,7 +26,7 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(),
+      appBar: AppBar(title: Text('HRMS'),centerTitle: true,),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -88,7 +88,7 @@ class _SignUpState extends State<SignUp> {
                         },
                       ),
                       SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
         
                       DropdownButton<String>(
@@ -103,7 +103,7 @@ class _SignUpState extends State<SignUp> {
                         }),
                       ),
         
-                      SizedBox(height: 10.0,),
+                      SizedBox(height: 20.0,),
         
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,

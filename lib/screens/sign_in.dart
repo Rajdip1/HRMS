@@ -47,7 +47,7 @@ class _SignInState extends State<SignIn> {
     else if(role=='HR') {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Hr()));
     }
-    else {
+    else if(role=='Employee') {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Employee()));
     }
   }
@@ -57,7 +57,7 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(),
+      appBar: AppBar(title: Text('HRMS'),centerTitle: true,),
       body: SingleChildScrollView(
         child: Column(
           children: [
