@@ -31,6 +31,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String selectGender = 'Male';
   String selectMaritaleStatus = 'Single';
 
+  //function for add data
+  add() {
+    // to be implemented
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

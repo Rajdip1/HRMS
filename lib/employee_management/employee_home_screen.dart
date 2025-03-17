@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/authentication%20screens/sign_in_screen.dart';
 import 'package:demo/employee_management/apply_leave_screen.dart';
 import 'package:demo/employee_management/employee_edit_details_form.dart';
 import 'package:demo/services/auth_service.dart';
+import 'package:demo/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeHomeScreen extends StatefulWidget {
@@ -12,6 +15,28 @@ class EmployeeHomeScreen extends StatefulWidget {
 }
 
 class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
+
+  final TextEditingController nameController = new TextEditingController();
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController departmentController = new TextEditingController();
+
+  String? id = FirebaseAuth.instance.currentUser?.uid;
+
+
+  Stream? EmployeeStream;
+
+  getOnTheLoad() async {
+    EmployeeStream = await DatabaseMethods().getEmployeeDetails(id!);
+    setState(() {});
+  }
+
+
+  @override
+  void initState() {
+    getOnTheLoad();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,124 +56,16 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
                       style: TextStyle(
                         fontSize: 20,
                       ),
-                    )),
+                    )
+                ),
+                SizedBox(height: 20,),
+                Center(
+                  child: employeeDetails(),
+                ),
                 SizedBox(
                   height: 10,
                 ),
 
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 180,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 15,right: 15),
-                    child: Card(
-                      color: Colors.blue[200],
-                      elevation: 10,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Name :',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16,),
-                            ),
-                            SizedBox(height: 8.0,),
-                            Text(
-                              'Email :',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16,),
-                            ),
-                            SizedBox(height: 8.0,),
-                            Text(
-                              'Role :',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16,),
-                            ),
-                            SizedBox(height: 8.0,),
-                            Text(
-                              'Department :',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16,),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                // SizedBox(height: 10,),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     SizedBox(
-                //       width: 180,
-                //       height: 130,
-                //       child: Card(
-                //         color: Colors.lightBlue,
-                //         elevation: 8,
-                //         child: Column(
-                //           children: [
-                //             Icon(Icons.time_to_leave),
-                //             Text('Apply Leave')
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //     SizedBox(width: 10,),
-                //     SizedBox(
-                //       width: 180,
-                //       height: 130,
-                //       child: Card(
-                //         color: Colors.lightBlue,
-                //         elevation: 8,
-                //         child: Column(
-                //           children: [
-                //             Icon(Icons.payments),
-                //             Text('Payrolls')
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // SizedBox(height: 10,),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     SizedBox(
-                //       width: 180,
-                //       height: 130,
-                //       child: Card(
-                //         color: Colors.lightBlue,
-                //         elevation: 8,
-                //         child: Column(
-                //           children: [
-                //             Icon(Icons.calendar_today),
-                //             Text('Calendar')
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //     SizedBox(width: 10,),
-                //     SizedBox(
-                //       width: 180,
-                //       height: 130,
-                //       child: Card(
-                //         color: Colors.lightBlue,
-                //         elevation: 8,
-                //         child: Column(
-                //           children: [
-                //             Icon(Icons.developer_board),
-                //             Text('Projects')
-                //           ],
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
                 SizedBox(height: 20.0,),
 
                 //time box
@@ -189,6 +106,74 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
             ),
           ),
         ));
+  }
+
+  //function to display data of logged in employee
+  Widget employeeDetails() {
+
+    return StreamBuilder(
+
+        stream: EmployeeStream,
+        builder: (context, AsyncSnapshot snapshot) {
+          print("Snapshot Data: ${snapshot.data?.data()}");
+
+          print("Snapshot hasData: ${snapshot.hasData}");
+          print("Snapshot data: ${snapshot.data}");
+          print("Document exists: ${snapshot.data?.exists}");
+
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator(),);
+          }
+          if(!snapshot.hasData || snapshot.data == null || !snapshot.data!.exists) {
+            return Center(child: Text('No data found'),);
+          }
+
+          var employeeData = snapshot.data!.data() as Map<String,dynamic>;
+
+          return SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 180,
+            child: Container(
+              margin: EdgeInsets.only(left: 15,right: 15),
+              child: Card(
+                color: Colors.blue[200],
+                elevation: 10,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Name : ${employeeData['Name']}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16,),
+                      ),
+                      SizedBox(height: 8.0,),
+                      Text(
+                        'Email : ${employeeData['Email']}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16,),
+                      ),
+                      SizedBox(height: 8.0,),
+                      Text(
+                        'Role : Employee',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16,),
+                      ),
+                      SizedBox(height: 8.0,),
+                      Text(
+                        'Department : ${employeeData['Department']}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 16,),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        }
+    );
   }
 
   Widget _widgetDrawer(BuildContext context) {
