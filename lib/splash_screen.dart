@@ -1,9 +1,5 @@
-import 'package:demo/authentication%20screens/sign_in_screen.dart';
-import 'package:demo/employee_management/employee_home_screen.dart';
-import 'package:demo/screens/welcome_screen.dart';
 import 'package:demo/wrapper.dart';
 import 'package:flutter/material.dart';
-import 'package:demo/screens/dashboard_screen.dart';
 import 'dart:async';
 
 class SplashScreen extends StatefulWidget {

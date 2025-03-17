@@ -8,6 +8,8 @@ void main() {
 }
 
 class ProjectManagementClient extends StatelessWidget {
+  const ProjectManagementClient({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,6 +20,8 @@ class ProjectManagementClient extends StatelessWidget {
 }
 
 class ClientsScreen extends StatefulWidget {
+  const ClientsScreen({super.key});
+
   @override
   _ClientsScreenState createState() => _ClientsScreenState();
 }
@@ -105,7 +109,7 @@ class EditClientScreen extends StatefulWidget {
   final Client client;
   final Function(Client) onSave;
 
-  EditClientScreen({required this.client, required this.onSave});
+  const EditClientScreen({super.key, required this.client, required this.onSave});
 
   @override
   _EditClientScreenState createState() => _EditClientScreenState();

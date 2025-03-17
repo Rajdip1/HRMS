@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BranchSectionPage extends StatefulWidget {
+  const BranchSectionPage({super.key});
+
   @override
   _BranchSectionPageState createState() => _BranchSectionPageState();
 }

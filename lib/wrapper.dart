@@ -68,7 +68,7 @@ class _WrapperState extends State<Wrapper> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Fetching role',style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.w500),),
+              Text('Fetching role',style: TextStyle(fontSize: 22.0,fontWeight: FontWeight.w500),),
               SizedBox(height: 16.0,),
               CircularProgressIndicator()
             ],

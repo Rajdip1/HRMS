@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
 class CompanyProfilePage extends StatefulWidget {
+  const CompanyProfilePage({super.key});
+
   @override
   _CompanyProfilePageState createState() => _CompanyProfilePageState();
 }

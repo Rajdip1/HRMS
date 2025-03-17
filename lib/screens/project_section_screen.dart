@@ -150,6 +150,8 @@ class _ProjectSectionScreenState extends State<ProjectSectionScreen> {
 }
 
 class ProjectFilterSection extends StatelessWidget {
+  const ProjectFilterSection({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -181,7 +183,7 @@ class ProjectCard extends StatelessWidget {
   final ProjectData project;
   final VoidCallback onDelete;
 
-  ProjectCard({required this.project, required this.onDelete});
+  const ProjectCard({super.key, required this.project, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {

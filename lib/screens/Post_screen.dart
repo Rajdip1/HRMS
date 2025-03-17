@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PostSectionPage extends StatefulWidget {
+  const PostSectionPage({super.key});
+
   @override
   _PostSectionPageState createState() => _PostSectionPageState();
 }

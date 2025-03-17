@@ -15,8 +15,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String password = '';
   String rollSelect = 'Employee';
 
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController passwordController = new TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 

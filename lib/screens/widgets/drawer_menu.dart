@@ -17,7 +17,7 @@ typedef NavigateCallback = void Function(Widget);
 class DrawerMenu extends StatelessWidget {
   final NavigateCallback onNavigate;
 
-  DrawerMenu({required this.onNavigate});
+  const DrawerMenu({super.key, required this.onNavigate});
 
   @override
   Widget build(BuildContext context) {

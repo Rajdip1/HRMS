@@ -8,6 +8,30 @@ class EmployeeEditDetailsForm extends StatefulWidget {
 }
 
 class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  final TextEditingController nameController = new TextEditingController();
+  final TextEditingController addressController = new TextEditingController();
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController phoneController = new TextEditingController();
+  final TextEditingController dateOfBirthController = new TextEditingController();
+  final TextEditingController branchController = new TextEditingController();
+  final TextEditingController departmentController = new TextEditingController();
+  final TextEditingController supervisorController = new TextEditingController();
+  final TextEditingController empTypeController = new TextEditingController();
+  final TextEditingController joiningDateController = new TextEditingController();
+  final TextEditingController officeTimeController = new TextEditingController();
+  final TextEditingController bankNameController = new TextEditingController();
+  final TextEditingController bankAccNumController = new TextEditingController();
+  final TextEditingController bankAccHolderNameController = new TextEditingController();
+  final TextEditingController bankAccTypeController = new TextEditingController();
+
+  // values for dropdown
+  String selectGender = 'Male';
+  String selectMaritaleStatus = 'Single';
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,60 +42,79 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildSectionTitle("Personal Detail"),
-            buildTextField("Name", "Admin"),
-            buildTextField("Address", "Kathmandu, Nepal"),
-            buildTextField("Email", "admin@admin.com"),
-            buildTextField("Phone No", "9811111111"),
-            buildTextField("Date of Birth", "09-05-1995"),
-            SizedBox(height: 10),
-            buildDropdownField("Gender", "Male"),
-            SizedBox(height: 10),
-            buildDropdownField("Marital Status", "Single"),
-            SizedBox(height: 10),
-            buildSectionTitle("Company Detail"),
-            buildTextField("Branch", "LAANTA FULINTA"),
-            buildTextField("Department", "Madaxa (Media)"),
-            buildTextField("Supervisor", "Admin"),
-            buildTextField("Employment Type", "Contract"),
-            buildTextField("Joining Date", "29-09-2022"),
-            buildTextField("Office Time", "10:00 AM - 7:00 PM"),
-            SizedBox(height: 10),
-            // buildSectionTitle("Leave Detail"),
-            // buildTextField("Leave Allocated", "12"),
-            // buildTextField("Sick Leave", "1"),
-            // buildTextField("Paid Leave", "1"),
-            // buildTextField("Urgent Leave", "1"),
-            // buildTextField("Unpaid Leave", "1"),
-            // buildTextField("Annual Leave", "1"),
-            // SizedBox(height: 10),
-            buildSectionTitle("Bank Detail"),
-            buildTextField("Bank Name", "ABC Bank"),
-            buildTextField("Bank Account Number", "067800054570"),
-            buildTextField("Account Holder Name", "Admin"),
-            buildTextField("Bank Account Type", "Salary"),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                  child: Text("Add Data"),
-                ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              buildSectionTitle("Personal Detail"),
+              buildTextField("Name",nameController,'Enter your name'),
+              buildTextField("Address", addressController,'Enter your address'),
+              buildTextField("Email", emailController,'Enter your email'),
+              buildTextField("Phone No", phoneController,'Enter your phone number'),
+              buildTextField("Date of Birth", dateOfBirthController,'Enter your date of birth'),
+              SizedBox(height: 10),
+              buildDropdownField("Gender", ['Male','Female','Other'],selectGender,
+                  (newVal) {
+                setState(() {
+                  selectGender = newVal!;
+                });
+              }),
+              SizedBox(height: 10),
+              buildDropdownField("Marital Status", ['Single','Married'],selectMaritaleStatus,
+                  (newVal) {
+                setState(() {
+                  selectMaritaleStatus = newVal!;
+                });
+                  }),
+              SizedBox(height: 10),
+              buildSectionTitle("Company Detail"),
+              buildTextField("Branch", branchController,'Enter your branch'),
+              buildTextField("Department", departmentController,'Enter your department'),
+              buildTextField("Supervisor", supervisorController,'Enter your supervisor'),
+              buildTextField("Employment Type", empTypeController,'Enter your employment type'),
+              buildTextField("Joining Date", joiningDateController,'Enter your date of joining'),
+              buildTextField("Office Time", officeTimeController,'Enter your office come time'),
+              SizedBox(height: 10),
+              // buildSectionTitle("Leave Detail"),
+              // buildTextField("Leave Allocated", "12"),
+              // buildTextField("Sick Leave", "1"),
+              // buildTextField("Paid Leave", "1"),
+              // buildTextField("Urgent Leave", "1"),
+              // buildTextField("Unpaid Leave", "1"),
+              // buildTextField("Annual Leave", "1"),
+              // SizedBox(height: 10),
+              buildSectionTitle("Bank Detail"),
+              buildTextField("Bank Name", bankNameController,'Enter your bank name'),
+              buildTextField("Bank Account Number", bankAccNumController,'Enter your bank account number'),
+              buildTextField("Account Holder Name", bankAccHolderNameController,'Enter account holder name'),
+              buildTextField("Bank Account Type", bankAccTypeController,'Enter account type'),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      if(_formKey.currentState!.validate()) {
+                        setState(() {
 
-                // ElevatedButton(
-                //   onPressed: () {},
-                //   style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                //   child: Text("Add User"),
-                // ),
+                        });
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                    child: Text("Edit Data"),
+                  ),
 
-              ],
-            ),
-          ],
+                  // ElevatedButton(
+                  //   onPressed: () {},
+                  //   style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                  //   child: Text("Add User"),
+                  // ),
+
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -87,15 +130,21 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
     );
   }
 
-  Widget buildTextField(String label, String hintText) {
+  Widget buildTextField(String label, TextEditingController controller, String errorMessage) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: TextField(
+      child: TextFormField(
+        controller: controller,
+        validator: (val) {
+          if(val==null || val.isEmpty) {
+            return errorMessage;
+          }
+          return null;
+        },
         style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
           labelText: label,
           labelStyle: TextStyle(color: Colors.black),
-          hintText: hintText,
           hintStyle: TextStyle(color: Colors.black),
           filled: true,
           fillColor: Colors.white24,
@@ -108,11 +157,11 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
     );
   }
 
-  Widget buildDropdownField(String label, String value) {
+  Widget buildDropdownField(String label, List<String> option, String selectedValue, ValueChanged<String?> onChanged) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: DropdownButtonFormField<String>(
-        value: value,
+        value: selectedValue,
         dropdownColor: Colors.white,
         decoration: InputDecoration(
           labelText: label,
@@ -124,13 +173,13 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
             borderSide: BorderSide.none,
           ),
         ),
-        items: [value].map((String item) {
+        items: option.map((String item) {
           return DropdownMenuItem<String>(
             value: item,
             child: Text(item, style: TextStyle(color: Colors.black)),
           );
         }).toList(),
-        onChanged: (newValue) {},
+        onChanged: onChanged,
       ),
     );
   }

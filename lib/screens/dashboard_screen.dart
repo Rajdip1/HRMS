@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:demo/screens/widgets/drawer_menu.dart';
 
 class DashboardScreen extends StatefulWidget {
+  const DashboardScreen({super.key});
+
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
