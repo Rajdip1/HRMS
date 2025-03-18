@@ -1,4 +1,5 @@
 import 'package:demo/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:random_string/random_string.dart';
@@ -36,7 +37,7 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
   //function to add data
   add() async {
     String id = randomAlphaNumeric(10);
-
+    String userId = FirebaseAuth.instance.currentUser!.uid;
     Map<String,dynamic> employeeInfoMap = {
       'id': id,
       'Name': nameController.text,
@@ -57,7 +58,7 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
       'Account Holder Name': bankAccHolderNameController.text,
       'Bank Account Type': bankAccTypeController.text
     };
-    await DatabaseMethods().addEmployeeData(employeeInfoMap, id).then((value) {
+    await DatabaseMethods().addEmployeeData(employeeInfoMap, userId).then((value) {
       Fluttertoast.showToast(
           msg: "Your details has added successfully",
           toastLength: Toast.LENGTH_SHORT,

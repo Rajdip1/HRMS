@@ -23,18 +23,18 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
   String? id = FirebaseAuth.instance.currentUser?.uid;
 
 
-  Stream? EmployeeStream;
+  Stream<DocumentSnapshot>? EmployeeStream;
 
   getOnTheLoad() async {
-    EmployeeStream = await DatabaseMethods().getEmployeeDetails(id!);
+    EmployeeStream = DatabaseMethods().getEmployeeDetails(id!);
     setState(() {});
   }
 
 
   @override
   void initState() {
-    getOnTheLoad();
     super.initState();
+    getOnTheLoad();
   }
 
   @override
@@ -69,38 +69,38 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
                 SizedBox(height: 20.0,),
 
                 //time box
-                Container(
-                  margin: EdgeInsets.only(left: 15,right: 15),
-                  padding: EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.black87,
-                    borderRadius: BorderRadius.circular(12)
-                  ),
-                  child:  Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TimerBox(value: "00"),
-                          const SizedBox(width: 8),
-                          TimerBox(value: "00"),
-                          const SizedBox(width: 8),
-                          TimerBox(value: "00"),
-                          const SizedBox(width: 8),
-                          const Text(
-                            "HRS",
-                            style: TextStyle(color: Colors.white, fontSize: 16),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 8),
-                      const Text(
-                        "GENERAL 09:00 AM TO 06:00 PM",
-                        style: TextStyle(color: Colors.white70, fontSize: 14),
-                      ),
-                    ],
-                  ),
-                )
+                // Container(
+                //   margin: EdgeInsets.only(left: 15,right: 15),
+                //   padding: EdgeInsets.all(16.0),
+                //   decoration: BoxDecoration(
+                //       color: Colors.black87,
+                //       borderRadius: BorderRadius.circular(12)
+                //   ),
+                //   child:  Column(
+                //     children: [
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         children: [
+                //           TimerBox(value: "00"),
+                //           const SizedBox(width: 8),
+                //           TimerBox(value: "00"),
+                //           const SizedBox(width: 8),
+                //           TimerBox(value: "00"),
+                //           const SizedBox(width: 8),
+                //           const Text(
+                //             "HRS",
+                //             style: TextStyle(color: Colors.white, fontSize: 16),
+                //           ),
+                //         ],
+                //       ),
+                //       SizedBox(height: 8),
+                //       const Text(
+                //         "GENERAL 09:00 AM TO 06:00 PM",
+                //         style: TextStyle(color: Colors.white70, fontSize: 14),
+                //       ),
+                //     ],
+                //   ),
+                // )
 
               ],
             ),
@@ -111,15 +111,14 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
   //function to display data of logged in employee
   Widget employeeDetails() {
 
-    return StreamBuilder(
-
+    return StreamBuilder<DocumentSnapshot>(
         stream: EmployeeStream,
-        builder: (context, AsyncSnapshot snapshot) {
-          print("Snapshot Data: ${snapshot.data?.data()}");
-
-          print("Snapshot hasData: ${snapshot.hasData}");
-          print("Snapshot data: ${snapshot.data}");
-          print("Document exists: ${snapshot.data?.exists}");
+        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+          // print("Snapshot Data: ${snapshot.data?.data()}");
+          //
+          // print("Snapshot hasData: ${snapshot.hasData}");
+          // print("Snapshot data: ${snapshot.data}");
+          // print("Document exists: ${snapshot.data?.exists}");
 
           if(snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator(),);
@@ -298,23 +297,23 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
   }
 }
 
-class TimerBox extends StatelessWidget {
-  final String value;
-
-  const TimerBox({super.key, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        color: Colors.pink[100],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        value,
-        style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
+// class TimerBox extends StatelessWidget {
+//   final String value;
+//
+//   const TimerBox({super.key, required this.value});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       padding: const EdgeInsets.all(8),
+//       decoration: BoxDecoration(
+//         color: Colors.pink[100],
+//         borderRadius: BorderRadius.circular(8),
+//       ),
+//       child: Text(
+//         value,
+//         style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+//       ),
+//     );
+//   }
+// }

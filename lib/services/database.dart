@@ -1,19 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseMethods {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  //Add employee data
-  Future addEmployeeData(
-      Map<String, dynamic> employeeDataMap, String id) async {
-    return await _firestore
-        .collection('employees')
-        .doc(id) //particular document id
-        .set(employeeDataMap);
+  //collection reference
+  final CollectionReference userCollection = FirebaseFirestore.instance.collection('users');
+
+  //Update employee data
+  Future<void> addEmployeeData(Map<String, dynamic> employeeDataMap, String id) async {
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .doc(id) // Update the same document
+        .update(employeeDataMap) // Merge new data with existing fields
+        .then((_) => print("Employee data added successfully"))
+        .catchError((error) => print("Failed to add employee data: $error"));
   }
 
+
+
   //Read data from database
-  Stream<DocumentSnapshot<Map<String, dynamic>>> getEmployeeDetails(String userId) {
-    return FirebaseFirestore.instance.collection("employees").doc(userId).snapshots();
+  Stream<DocumentSnapshot> getEmployeeDetails(String id) {
+    return userCollection.doc(id).snapshots();
   }
 }
