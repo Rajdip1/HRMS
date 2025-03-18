@@ -1,4 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:random_string/random_string.dart';
+
+import '../services/database.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -32,8 +37,40 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   String selectMaritaleStatus = 'Single';
 
   //function for add data
-  add() {
-    // to be implemented
+  add() async {
+    String id = randomAlphaNumeric(10);
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    Map<String,dynamic> employeeInfoMap = {
+      'id': id,
+      'Name': nameController.text,
+      'Address': addressController.text,
+      'Email': emailController.text,
+      'Phone': phoneController.text,
+      'Date of Birth': dateOfBirthController.text,
+      'Gender': selectGender,
+      'Marital Status': selectMaritaleStatus,
+      'Branch': branchController.text,
+      'Department': departmentController.text,
+      'Supervisor': supervisorController.text,
+      'Employment Type': empTypeController.text,
+      'Joining Date': joiningDateController.text,
+      'Office Time': officeTimeController.text,
+      'Bank Name': bankNameController.text,
+      'Bank Account Number': bankAccNumController.text,
+      'Account Holder Name': bankAccHolderNameController.text,
+      'Bank Account Type': bankAccTypeController.text
+    };
+    await DatabaseMethods().addEmployeeData(employeeInfoMap, userId).then((value) {
+      Fluttertoast.showToast(
+          msg: "Your details has added successfully",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.blue,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+    });
   }
 
   @override
@@ -100,9 +137,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if(_formKey.currentState!.validate()) {
-                        setState(() {
-
-                        });
+                        add();
                       }
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.white),

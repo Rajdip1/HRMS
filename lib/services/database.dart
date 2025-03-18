@@ -21,4 +21,14 @@ class DatabaseMethods {
   Stream<DocumentSnapshot> getEmployeeDetails(String id) {
     return userCollection.doc(id).snapshots();
   }
+
+  //Read on HR side
+  Stream<QuerySnapshot> getAllEmployeeDetails() {
+    return FirebaseFirestore.instance.collection("users").snapshots();
+  }
+
+  //delete from HR side
+  Future deleteEmployeeDetails(String id) async {
+    return await FirebaseFirestore.instance.collection("users").doc(id).delete();
+  }
 }

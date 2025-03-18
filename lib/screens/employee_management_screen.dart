@@ -1,9 +1,8 @@
-import 'dart:io';
-
-import 'package:csv/csv.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
 
+import '../services/database.dart';
 import 'edit_profile.dart';
 
 class EmployeeManagementScreen extends StatefulWidget {
@@ -17,63 +16,76 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
   // String selectedDepartment = 'All';
   TextEditingController searchController = TextEditingController();
 
-  List<Map<String, String>> employees = [
-    {'name': 'Aila Carlos', 'email': 'aila3@yahoo.com', 'department': 'HR'},
-    {'name': 'Alam Mata', 'email': 'alam@gmail.com', 'department': 'Sales'},
-    {'name': 'Aleksandar Andreev', 'email': 'aleksandr@yahoo.com', 'department': 'IT'},
-    {'name': 'keny', 'email': 'keny12@gmail.com', 'department': 'Finance'},
-  ];
+  String? id = FirebaseAuth.instance.currentUser?.uid;
+  Stream<QuerySnapshot>? employeeStream;
 
-  void addEmployee(String name, String email, String department) {
-    setState(() {
-      employees.add({'name': name, 'email': email, 'department': department});
-    });
+  getOnTheLoad() async {
+    employeeStream = DatabaseMethods().getAllEmployeeDetails();
+    setState(() {});
   }
 
-  void showAddEmployeeDialog() {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    String selectedDept = 'HR';
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text("Add Employee"),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(controller: nameController, decoration: InputDecoration(labelText: "Name")),
-              TextField(controller: emailController, decoration: InputDecoration(labelText: "Email")),
-              DropdownButton<String>(
-                value: selectedDept,
-                items: ['HR', 'Sales', 'IT', 'Finance']
-                    .map((String value) => DropdownMenuItem(value: value, child: Text(value)))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedDept = value!;
-                  });
-                },
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancel")),
-            ElevatedButton(
-              onPressed: () {
-                if (nameController.text.isNotEmpty && emailController.text.isNotEmpty) {
-                  addEmployee(nameController.text, emailController.text, selectedDept);
-                  Navigator.pop(context);
-                }
-              },
-              child: Text("Add"),
-            ),
-          ],
-        );
-      },
-    );
+  @override
+  void initState() {
+    super.initState();
+    getOnTheLoad();
   }
+
+  //delete
+  // deleteData() async {
+  //   await DatabaseMethods()
+  // }
+
+
+  // void addEmployee(String name, String email, String department) {
+  //   setState(() {
+  //     employees.add({'name': name, 'email': email, 'department': department});
+  //   });
+  // }
+
+  // void showAddEmployeeDialog() {
+  //   TextEditingController nameController = TextEditingController();
+  //   TextEditingController emailController = TextEditingController();
+  //   String selectedDept = 'HR';
+  //
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return AlertDialog(
+  //         title: Text("Add Employee"),
+  //         content: Column(
+  //           mainAxisSize: MainAxisSize.min,
+  //           children: [
+  //             TextField(controller: nameController, decoration: InputDecoration(labelText: "Name")),
+  //             TextField(controller: emailController, decoration: InputDecoration(labelText: "Email")),
+  //             DropdownButton<String>(
+  //               value: selectedDept,
+  //               items: ['HR', 'Sales', 'IT', 'Finance']
+  //                   .map((String value) => DropdownMenuItem(value: value, child: Text(value)))
+  //                   .toList(),
+  //               onChanged: (value) {
+  //                 setState(() {
+  //                   selectedDept = value!;
+  //                 });
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //         actions: [
+  //           TextButton(onPressed: () => Navigator.pop(context), child: Text("Cancel")),
+  //           ElevatedButton(
+  //             onPressed: () {
+  //               if (nameController.text.isNotEmpty && emailController.text.isNotEmpty) {
+  //                 addEmployee(nameController.text, emailController.text, selectedDept);
+  //                 Navigator.pop(context);
+  //               }
+  //             },
+  //             child: Text("Add"),
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
 
   // Future<void> exportCSV() async {
   //   List<List<String>> data = [
@@ -170,80 +182,146 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
             //   ],
             // ),
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextButton(
-                  style: TextButton.styleFrom(backgroundColor: Colors.yellowAccent),
-                  onPressed: showAddEmployeeDialog,
-                  child: Text('Add Employee', style: TextStyle(color: Colors.black)),
-                ),
-                // SizedBox(width: 30,),
-                // TextButton(
-                //   onPressed: exportCSV,
-                //   child: Text('Export CSV', style: TextStyle(color: Colors.black)),
-                // ),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     TextButton(
+            //       style: TextButton.styleFrom(backgroundColor: Colors.yellowAccent),
+            //       onPressed: showAddEmployeeDialog,
+            //       child: Text('Add Employee', style: TextStyle(color: Colors.black)),
+            //     ),
+            //     // SizedBox(width: 30,),
+            //     // TextButton(
+            //     //   onPressed: exportCSV,
+            //     //   child: Text('Export CSV', style: TextStyle(color: Colors.black)),
+            //     // ),
+            //   ],
+            // ),
 
-            Expanded(
-              child: ListView.builder(
-                itemCount: employees.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                    elevation: 4,
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.all(10),
-                      leading: CircleAvatar(
-                        radius: 25,
-                        backgroundColor: Colors.black12,
-                        child: Text(
-                          employees[index]['name']![0],
-                          style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      title: Text(
-                        employees[index]['name']!,
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            employees[index]['email']!,
-                            style: TextStyle(fontSize: 14, color: Colors.grey[600]),
-                          ),
-                          Text(
-                            employees[index]['department']!,
-                            style: TextStyle(fontSize: 12, color: Colors.blueGrey),
-                          ),
-                        ],
-                      ),
-                      trailing: PopupMenuButton<String>(
-                        onSelected: (value) {
-                          if (value == 'edit_profile') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => EditProfileScreen()),
-                            );
-                          }
-                        },
-                        itemBuilder: (context) => [
-                          PopupMenuItem(value: 'edit_profile', child: Text('Edit Profile')),
-                          // PopupMenuItem(child: Text('Change Password'), value: 'change_password'),
-                          // PopupMenuItem(child: Text('Force Logout'), value: 'force_logout'),
-                          PopupMenuItem(value: 'view_details', child: Text('View Details')),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: employees.length,
+            //     itemBuilder: (context, index) {
+            //       return Card(
+            //         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            //         elevation: 4,
+            //         margin: EdgeInsets.symmetric(vertical: 8),
+            //         child: ListTile(
+            //           contentPadding: EdgeInsets.all(10),
+            //           leading: CircleAvatar(
+            //             radius: 25,
+            //             backgroundColor: Colors.black12,
+            //             child: Text(
+            //               employees[index]['name']![0],
+            //               style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+            //             ),
+            //           ),
+            //           title: Text(
+            //             employees[index]['name']!,
+            //             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            //           ),
+            //           subtitle: Column(
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             children: [
+            //               Text(
+            //                 employees[index]['email']!,
+            //                 style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+            //               ),
+            //               Text(
+            //                 employees[index]['department']!,
+            //                 style: TextStyle(fontSize: 12, color: Colors.blueGrey),
+            //               ),
+            //             ],
+            //           ),
+            //           trailing: PopupMenuButton<String>(
+            //             onSelected: (value) {
+            //               if (value == 'edit_profile') {
+            //                 Navigator.push(
+            //                   context,
+            //                   MaterialPageRoute(builder: (context) => EditProfileScreen()),
+            //                 );
+            //               }
+            //             },
+            //             itemBuilder: (context) => [
+            //               PopupMenuItem(value: 'edit_profile', child: Text('Edit Profile')),
+            //               // PopupMenuItem(child: Text('Change Password'), value: 'change_password'),
+            //               // PopupMenuItem(child: Text('Force Logout'), value: 'force_logout'),
+            //               PopupMenuItem(value: 'view_details', child: Text('View Details')),
+            //             ],
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
+
+            Expanded(child: allEmployeeDetails(),)
           ],
         ),
+      ),
+    );
+  }
+
+  Widget allEmployeeDetails() {
+    return SizedBox(
+      height: 550,
+      child: StreamBuilder<QuerySnapshot>(
+        stream: DatabaseMethods().getAllEmployeeDetails(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text("No users found"));
+          }
+      
+          // Convert documents into a list
+          var users = snapshot.data!.docs;
+      
+          return Expanded(
+            child: ListView.builder(
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                var user = users[index].data() as Map<String, dynamic>;
+                  
+                return Card(
+                  margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: ListTile(
+                    title: Text(user["Name"] ?? "No Name"),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("${user["email"] ?? "No Email"}"),
+                        Text("Role: ${user["role"] ?? "No Role"}"),
+                        Text("Department: ${user["Department"] ?? "Not Assigned"}"),
+                      ],
+                    ),
+                    leading: Icon(Icons.person),
+                    trailing: PopupMenuButton<String>(
+                    onSelected: (value) {
+                    if (value == 'edit_profile') {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => EditProfileScreen()),
+                      );
+                    }
+                    else if(value == 'delete') {
+                      // to be implemented
+                    }
+                  },
+                  itemBuilder: (context) => [
+                    PopupMenuItem(value: 'edit_profile', child: Text('Edit Profile')),
+                    PopupMenuItem(child: Text('Delete'), value: 'delete'),
+                    // PopupMenuItem(child: Text('Force Logout'), value: 'force_logout'),
+                    PopupMenuItem(value: 'view_details', child: Text('View Details')),
+                  ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }

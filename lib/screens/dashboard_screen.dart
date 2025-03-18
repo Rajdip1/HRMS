@@ -62,37 +62,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             SizedBox(height: screenHeight * 0.02),
             //time box
-            Container(
-              padding: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                  color: Colors.black87,
-                  borderRadius: BorderRadius.circular(12)
-              ),
-              child:  Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TimerBox(value: "00"),
-                      const SizedBox(width: 8),
-                      TimerBox(value: "00"),
-                      const SizedBox(width: 8),
-                      TimerBox(value: "00"),
-                      const SizedBox(width: 8),
-                      const Text(
-                        "HRS",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  const Text(
-                    "GENERAL 09:00 AM TO 06:00 PM",
-                    style: TextStyle(color: Colors.white70, fontSize: 14),
-                  ),
-                ],
-              ),
-            ),
+            // Container(
+            //   padding: EdgeInsets.all(16.0),
+            //   decoration: BoxDecoration(
+            //       color: Colors.black87,
+            //       borderRadius: BorderRadius.circular(12)
+            //   ),
+            //   child:  Column(
+            //     children: [
+            //       Row(
+            //         mainAxisAlignment: MainAxisAlignment.center,
+            //         children: [
+            //           TimerBox(value: "00"),
+            //           const SizedBox(width: 8),
+            //           TimerBox(value: "00"),
+            //           const SizedBox(width: 8),
+            //           TimerBox(value: "00"),
+            //           const SizedBox(width: 8),
+            //           const Text(
+            //             "HRS",
+            //             style: TextStyle(color: Colors.white, fontSize: 16),
+            //           ),
+            //         ],
+            //       ),
+            //       SizedBox(height: 8),
+            //       const Text(
+            //         "GENERAL 09:00 AM TO 06:00 PM",
+            //         style: TextStyle(color: Colors.white70, fontSize: 14),
+            //       ),
+            //     ],
+            //   ),
+            // ),
             SizedBox(height: screenHeight * 0.02),
             Center(child: _buildProjectManagementSection(screenWidth)),
             SizedBox(height: screenHeight * 0.02,),
