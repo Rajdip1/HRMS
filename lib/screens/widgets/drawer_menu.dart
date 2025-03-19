@@ -4,11 +4,9 @@ import 'package:demo/screens/project_section_screen.dart';
 import 'package:demo/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/screens/Department_screen.dart';
-import 'package:demo/screens/Post_screen.dart';
 import 'package:demo/screens/attendance_report.dart';
 import 'package:demo/screens/clients_section.dart';
 import 'package:demo/screens/company_profile.dart';
-import 'package:demo/screens/branch_section.dart';
 import '../attendance_logs_screen.dart';
 import '../attendance_screen.dart';
 import '../employee_management_screen.dart';
@@ -232,14 +230,14 @@ class DrawerMenu extends StatelessWidget {
             },
           ),
 
-          // ListTile(
-          //   leading: Icon(Icons.logout, color: Colors.black),
-          //   title: Text("Log out", style: TextStyle(color: Colors.black)),
-          //   onTap: () async {
-          //     await AuthServiceMethods().SignOut();
-          //     Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
-          //   },
-          // ),
+          ListTile(
+            leading: Icon(Icons.logout, color: Colors.black),
+            title: Text("Log out", style: TextStyle(color: Colors.black)),
+            onTap: () async {
+              await AuthServiceMethods().SignOut();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+            },
+          ),
         ],
       ),
     );

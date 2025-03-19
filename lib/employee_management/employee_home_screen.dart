@@ -181,7 +181,7 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
       child: ListView(
         children: [
           DrawerHeader(
-              decoration: BoxDecoration(color: Colors.grey),
+              decoration: BoxDecoration(color: Colors.blue),
               child: Row(
                 children: [
                   Container(
@@ -205,7 +205,8 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
                     ),
                   ),
                 ],
-              )),
+              )
+          ),
           ListTile(
             leading: Icon(Icons.person),
             title: Text(
@@ -220,9 +221,6 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
                       builder: (context) => EmployeeEditDetailsForm()));
             },
           ),
-          SizedBox(
-            height: 5,
-          ),
           ListTile(
             leading: Icon(Icons.schedule),
             title: Text(
@@ -232,9 +230,6 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
             tileColor: Colors.white,
             onTap: () {},
           ),
-          SizedBox(
-            height: 5,
-          ),
           ListTile(
             leading: Icon(Icons.notifications),
             title: Text(
@@ -243,9 +238,6 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
             ),
             tileColor: Colors.white,
             onTap: () {},
-          ),
-          SizedBox(
-            height: 5,
           ),
           ListTile(
             leading: Icon(Icons.time_to_leave),
@@ -258,9 +250,6 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyLeaveScreen()));
             },
           ),
-          SizedBox(
-            height: 5,
-          ),
           ListTile(
             leading: Icon(Icons.payment),
             title: Text(
@@ -270,16 +259,6 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
             tileColor: Colors.white,
             onTap: () {},
           ),
-          // SizedBox(height: 5,),
-          // ListTile(
-          //   leading: Icon(Icons.settings),
-          //   title: Text('Settings',style: TextStyle(color: Colors.black),),
-          //   tileColor: Colors.white,
-          //   onTap: () {},
-          // ),
-          SizedBox(
-            height: 5,
-          ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text(
@@ -287,8 +266,20 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
               style: TextStyle(color: Colors.black),
             ),
             tileColor: Colors.white,
-            onTap: () async {
+            onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text(
+              'Log out',
+              style: TextStyle(color: Colors.black),
+            ),
+            tileColor: Colors.white,
+            onTap: () async {
+              await AuthServiceMethods().SignOut();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
             },
           )
         ],
