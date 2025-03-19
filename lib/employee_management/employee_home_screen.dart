@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/authentication%20screens/sign_in_screen.dart';
 import 'package:demo/employee_management/apply_leave_screen.dart';
 import 'package:demo/employee_management/employee_edit_details_form.dart';
+import 'package:demo/employee_management/settings_screen.dart';
 import 'package:demo/services/auth_service.dart';
 import 'package:demo/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -280,15 +281,14 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
             height: 5,
           ),
           ListTile(
-            leading: Icon(Icons.logout),
+            leading: Icon(Icons.settings),
             title: Text(
-              'Log out',
+              'Settings',
               style: TextStyle(color: Colors.black),
             ),
             tileColor: Colors.white,
             onTap: () async {
-              await AuthServiceMethods().SignOut();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
             },
           )
         ],

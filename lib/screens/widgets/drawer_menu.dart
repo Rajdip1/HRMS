@@ -1,4 +1,5 @@
 import 'package:demo/authentication%20screens/sign_in_screen.dart';
+import 'package:demo/employee_management/settings_screen.dart';
 import 'package:demo/screens/project_section_screen.dart';
 import 'package:demo/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -226,17 +227,19 @@ class DrawerMenu extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.settings, color: Colors.black),
             title: Text("Settings", style: TextStyle(color: Colors.black)),
-            onTap: () {},
-          ),
-
-          ListTile(
-            leading: Icon(Icons.logout, color: Colors.black),
-            title: Text("Log out", style: TextStyle(color: Colors.black)),
-            onTap: () async {
-              await AuthServiceMethods().SignOut();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
             },
           ),
+
+          // ListTile(
+          //   leading: Icon(Icons.logout, color: Colors.black),
+          //   title: Text("Log out", style: TextStyle(color: Colors.black)),
+          //   onTap: () async {
+          //     await AuthServiceMethods().SignOut();
+          //     Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+          //   },
+          // ),
         ],
       ),
     );
