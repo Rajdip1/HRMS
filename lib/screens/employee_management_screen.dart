@@ -31,9 +31,9 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
   }
 
   //delete
-  // deleteData() async {
-  //   await DatabaseMethods()
-  // }
+  deleteData(String empId) async {
+    await DatabaseMethods().deleteEmployeeDetails(empId);
+  }
 
 
   // void addEmployee(String name, String email, String department) {
@@ -306,7 +306,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                       );
                     }
                     else if(value == 'delete') {
-                      // to be implemented
+                      deleteData(users[index].id);  //passed firestore doc id
                     }
                   },
                   itemBuilder: (context) => [
