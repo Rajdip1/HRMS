@@ -45,6 +45,7 @@ dependencies:
   cloud_firestore: ^5.6.5
   fluttertoast: ^8.2.12
   random_string: ^2.3.1
+  shared_preferences: ^2.5.2
 
 
 dev_dependencies:

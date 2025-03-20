@@ -23,11 +23,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           "HR Home",
           style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
         ),
-        actions: [
-          IconButton(icon: Icon(Icons.search, color: Colors.black), onPressed: () {}),
-          // IconButton(icon: Icon(Icons.notifications, color: Colors.black), onPressed: () {}),
-          // IconButton(icon: Icon(Icons.settings, color: Colors.black), onPressed: () {}),
-        ],
+        // actions: [
+        //   IconButton(icon: Icon(Icons.search, color: Colors.black), onPressed: () {}),
+        //   // IconButton(icon: Icon(Icons.notifications, color: Colors.black), onPressed: () {}),
+        //   // IconButton(icon: Icon(Icons.settings, color: Colors.black), onPressed: () {}),
+        // ],
       ),
       drawer: DrawerMenu(onNavigate: (screen) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => screen));

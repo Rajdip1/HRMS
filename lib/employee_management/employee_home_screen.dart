@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/authentication%20screens/sign_in_screen.dart';
 import 'package:demo/employee_management/apply_leave_screen.dart';
 import 'package:demo/employee_management/employee_edit_details_form.dart';
-import 'package:demo/employee_management/settings_screen.dart';
+import 'package:demo/screens/settings_screen.dart';
 import 'package:demo/services/auth_service.dart';
 import 'package:demo/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';

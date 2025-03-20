@@ -1,5 +1,8 @@
 import 'package:demo/authentication%20screens/sign_in_screen.dart';
-import 'package:demo/employee_management/settings_screen.dart';
+import 'package:demo/screens/settings_screen.dart';
+import 'package:demo/leave_management/leave_approval_screen.dart';
+import 'package:demo/leave_management/leave_reject_screen.dart';
+import 'package:demo/leave_management/leave_request_screen.dart';
 import 'package:demo/screens/project_section_screen.dart';
 import 'package:demo/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -184,7 +187,9 @@ class DrawerMenu extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.request_page, color: Colors.black),
             title: Text("Leave Request", style: TextStyle(color: Colors.black)),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => LeaveRequestsScreen()));
+            },
       ),
       // ListTile(
       //   leading: Icon(Icons.time_to_leave_outlined, color: Colors.black),
@@ -193,8 +198,17 @@ class DrawerMenu extends StatelessWidget {
       // ),
       ListTile(
         leading: Icon(Icons.approval, color: Colors.black),
-        title: Text("Leave Approvel", style: TextStyle(color: Colors.black)),
-        onTap: () {},
+        title: Text("Leave Approval", style: TextStyle(color: Colors.black)),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LeaveApprovalScreen(leaveRequests: leaveRequests)));
+        },
+      ),
+      ListTile(
+        leading: Icon(Icons.approval, color: Colors.black),
+        title: Text("Leave Reject", style: TextStyle(color: Colors.black)),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LeaveRejectedScreen(leaveRequests: leaveRequests)));
+        },
       ),
     ],
     ),
