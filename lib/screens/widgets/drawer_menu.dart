@@ -106,13 +106,13 @@ class DrawerMenu extends StatelessWidget {
             leading: Icon(Icons.access_time, color: Colors.black),
             title: Text("Attendance Section", style: TextStyle(color: Colors.black)),
             children: [
-              // ListTile(
-              //   leading: Icon(Icons.timer_sharp, color: Colors.black),
-              //   title: Text("Attendance", style: TextStyle(color: Colors.black)),
-              //   onTap: () {
-              //     Navigator.push(context, MaterialPageRoute(builder: (context) => AttendanceScreen()));
-              //   },
-              // ),
+              ListTile(
+                leading: Icon(Icons.timer_sharp, color: Colors.black),
+                title: Text("Attendance", style: TextStyle(color: Colors.black)),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AttendanceScreen()));
+                },
+              ),
               // ListTile(
               //   leading: Icon(Icons.login_sharp, color: Colors.black),
               //   title: Text("Attendance Logs", style: TextStyle(color: Colors.black)),

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo/authentication%20screens/sign_in_screen.dart';
 import 'package:demo/employee_management/apply_leave_screen.dart';
 import 'package:demo/employee_management/employee_edit_details_form.dart';
+import 'package:demo/screens/attendance_screen.dart';
 import 'package:demo/screens/settings_screen.dart';
 import 'package:demo/services/auth_service.dart';
 import 'package:demo/services/database.dart';
@@ -228,17 +229,22 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
               style: TextStyle(color: Colors.black),
             ),
             tileColor: Colors.white,
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AttendanceScreen()));
+            },
           ),
-          ListTile(
-            leading: Icon(Icons.notifications),
-            title: Text(
-              'Notifications',
-              style: TextStyle(color: Colors.black),
-            ),
-            tileColor: Colors.white,
-            onTap: () {},
-          ),
+          // ListTile(
+          //   leading: Icon(Icons.notifications),
+          //   title: Text(
+          //     'Notifications',
+          //     style: TextStyle(color: Colors.black),
+          //   ),
+          //   tileColor: Colors.white,
+          //   onTap: () {},
+          // ),
           ListTile(
             leading: Icon(Icons.time_to_leave),
             title: Text(
@@ -250,15 +256,15 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
               Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyLeaveScreen()));
             },
           ),
-          ListTile(
-            leading: Icon(Icons.payment),
-            title: Text(
-              'Payrolls',
-              style: TextStyle(color: Colors.black),
-            ),
-            tileColor: Colors.white,
-            onTap: () {},
-          ),
+          // ListTile(
+          //   leading: Icon(Icons.payment),
+          //   title: Text(
+          //     'Payrolls',
+          //     style: TextStyle(color: Colors.black),
+          //   ),
+          //   tileColor: Colors.white,
+          //   onTap: () {},
+          // ),
           ListTile(
             leading: Icon(Icons.settings),
             title: Text(
