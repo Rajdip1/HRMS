@@ -313,7 +313,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                     PopupMenuItem(value: 'edit_profile', child: Text('Edit Profile')),
                     PopupMenuItem(child: Text('Delete'), value: 'delete'),
                     // PopupMenuItem(child: Text('Force Logout'), value: 'force_logout'),
-                    PopupMenuItem(value: 'view_details', child: Text('View Details')),
+                    // PopupMenuItem(value: 'view_details', child: Text('View Details')),
                   ],
                     ),
                   ),

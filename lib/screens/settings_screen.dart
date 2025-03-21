@@ -20,14 +20,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           Container(
             margin: EdgeInsets.only(left: 13),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Change app theme',style: TextStyle(fontSize: 20),),
-                Spacer(),
-                Switch(value: themeProvider.themeMode==ThemeMode.dark, onChanged: (value) {
-                  themeProvider.toggleTheme();
-                }),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('Change app theme',style: TextStyle(fontSize: 20),),
+                    Spacer(),
+                    Switch(value: themeProvider.themeMode==ThemeMode.dark, onChanged: (value) {
+                      themeProvider.toggleTheme();
+                    }),
+                  ],
+                ),
+                Text('Notification setting',style: TextStyle(fontSize: 20),),
               ],
             ),
           )

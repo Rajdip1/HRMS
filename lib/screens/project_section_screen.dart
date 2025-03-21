@@ -51,6 +51,60 @@ class _ProjectSectionScreenState extends State<ProjectSectionScreen> {
     });
   }
 
+  void editProject(int index, ProjectData updatedProject) {
+    setState(() {
+      projects[index] = updatedProject;
+    });
+  }
+
+  void showEditProjectDialog(int index, ProjectData project) {
+    TextEditingController titleController = TextEditingController(text: project.title);
+    TextEditingController clientController = TextEditingController(text: project.client);
+    TextEditingController statusController = TextEditingController(text: project.status);
+    TextEditingController priorityController = TextEditingController(text: project.priority);
+    TextEditingController startDateController = TextEditingController(text: project.startDate);
+    TextEditingController dueDateController = TextEditingController(text: project.dueDate);
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text("Edit Project"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(controller: titleController, decoration: InputDecoration(labelText: "Project Name")),
+            TextField(controller: clientController, decoration: InputDecoration(labelText: "Client Name")),
+            TextField(controller: startDateController, decoration: InputDecoration(labelText: "Start Date")),
+            TextField(controller: dueDateController, decoration: InputDecoration(labelText: "Due Date")),
+            TextField(controller: statusController, decoration: InputDecoration(labelText: "Status")),
+            TextField(controller: priorityController, decoration: InputDecoration(labelText: "Priority")),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              editProject(index, ProjectData(
+                title: titleController.text,
+                client: clientController.text,
+                status: statusController.text,
+                priority: priorityController.text,
+                isActive: true,
+                startDate: startDateController.text,
+                dueDate: dueDateController.text,
+              ));
+              Navigator.pop(context);
+            },
+            child: Text("Save"),
+          ),
+        ],
+      ),
+    );
+  }
+
   void showAddProjectDialog() {
     String title = "", client = "", status = "", priority = "", startDate = "", dueDate = "";
 
@@ -138,6 +192,8 @@ class _ProjectSectionScreenState extends State<ProjectSectionScreen> {
                   return ProjectCard(
                     project: projects[index],
                     onDelete: () => deleteProject(index),
+                    onEdit: () => showEditProjectDialog(index, projects[index]),
+
                   );
                 },
               ),
@@ -182,8 +238,9 @@ class ProjectFilterSection extends StatelessWidget {
 class ProjectCard extends StatelessWidget {
   final ProjectData project;
   final VoidCallback onDelete;
+  final VoidCallback onEdit;
 
-  const ProjectCard({super.key, required this.project, required this.onDelete});
+  const ProjectCard({super.key, required this.project, required this.onDelete, required this.onEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -204,10 +261,11 @@ class ProjectCard extends StatelessWidget {
                 PopupMenuButton<String>(
                   onSelected: (value) {
                     if (value == "Delete") onDelete();
+                    if(value == "Edit") onEdit();   //hey chatGPT can you complete this func
                   },
                   itemBuilder: (context) => [
                     PopupMenuItem(value: "Edit", child: Text("Edit")),
-                    PopupMenuItem(value: "View", child: Text("View")),
+                    // PopupMenuItem(value: "View", child: Text("View")),
                     PopupMenuItem(value: "Delete", child: Text("Delete")),
                   ],
                 ),

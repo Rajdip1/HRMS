@@ -143,16 +143,18 @@ class DrawerMenu extends StatelessWidget {
       ListTile(
         leading: Icon(Icons.favorite, color: Colors.black),
         title: Text("Clients", style: TextStyle(color: Colors.black)),
-        onTap: () => onNavigate(ProjectManagementClient()),
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ClientsScreen()));
+        },
       ),
          ],
          ),
-          ListTile(
-            leading: Icon(Icons.notifications, color: Colors.black),
-            // title: Text("Notice", style: TextStyle(color: Colors.black)),
-            title: Text("Notifications", style: TextStyle(color: Colors.black)),
-            onTap: () {},
-          ),
+          // ListTile(
+          //   leading: Icon(Icons.notifications, color: Colors.black),
+          //   // title: Text("Notice", style: TextStyle(color: Colors.black)),
+          //   title: Text("Notifications", style: TextStyle(color: Colors.black)),
+          //   onTap: () {},
+          // ),
           // ExpansionTile(
           //   leading: Icon(Icons.monetization_on, color: Colors.black),
           //   title: Text("Payroll Management", style: TextStyle(color: Colors.black)),
