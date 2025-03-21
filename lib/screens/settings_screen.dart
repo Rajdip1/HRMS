@@ -33,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     }),
                   ],
                 ),
-                Text('Notification setting',style: TextStyle(fontSize: 20),),
+                // Text('Notification setting',style: TextStyle(fontSize: 20),),
               ],
             ),
           )
