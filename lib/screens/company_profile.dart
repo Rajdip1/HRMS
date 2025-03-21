@@ -9,9 +9,9 @@ class CompanyProfilePage extends StatefulWidget {
 }
 class _CompanyProfilePageState extends State<CompanyProfilePage> {
   final TextEditingController companyNameController =
-  TextEditingController(text: "Humancapital");
+  TextEditingController(text: "HumanCapital Info Tech");
   final TextEditingController companyOwnerController =
-  TextEditingController(text: "Humancapital Info Tech");
+  TextEditingController(text: "Ashish Arora");
   final TextEditingController addressController =
   TextEditingController(text: "Gujarat");
   final TextEditingController emailController =
@@ -59,7 +59,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF121212),
+        backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Company Profile"),
         backgroundColor: Colors.white,
@@ -77,14 +77,14 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
             buildTextField("Website URL", websiteController),
             SizedBox(height: 10),
             Text("Check Office Off Days",
-                style: TextStyle(color: Colors.white)),
+                style: TextStyle(color: Colors.black)),
             Column(
               children: officeDays.map((day) {
                 return CheckboxListTile(
-                  title: Text(day, style: TextStyle(color: Colors.white)),
+                  title: Text(day, style: TextStyle(color: Colors.black)),
                   value: selectedDays[day],
                   activeColor: Colors.black12,
-                  checkColor: Colors.white,
+                  checkColor: Colors.black,
                   onChanged: (bool? value) {
                     setState(() {
                       selectedDays[day] = value!;
@@ -100,13 +100,13 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                 ElevatedButton(
                   onPressed: pickFile,
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black12),
+                      backgroundColor: Colors.white),
                   child: Text("Choose File"),
                 ),
                 SizedBox(width: 10),
                 Text(
                   selectedFileName ?? "No file chosen",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.black),
                 ),
               ],
             ),
@@ -117,7 +117,7 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
                 onPressed: updateCompany,
                 style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white),
-                child: Text("Update Company", style: TextStyle(fontSize: 16)),
+                child: Text("Update Profile", style: TextStyle(fontSize: 16)),
               ),
             ),
           ],
@@ -131,11 +131,11 @@ class _CompanyProfilePageState extends State<CompanyProfilePage> {
       padding: const EdgeInsets.only(bottom: 10),
       child: TextField(
         controller: controller,
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: Colors.black),
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.white70),
-          filled: true,
+          labelStyle: TextStyle(color: Colors.black54),
+          // filled: true,
           fillColor: Color(0xFF1E1E2C),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           focusedBorder: OutlineInputBorder(

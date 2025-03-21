@@ -38,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Welcome To HRMS",
+              "Welcome To HumanCapital HRMS",
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             SizedBox(height: screenHeight * 0.015),
@@ -153,7 +153,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(18),
               child: Image.asset(
-                'assets/illustration.png',
+                'assets/HR project graph.png',
                 fit: BoxFit.contain,
               ),
             ),
