@@ -9,17 +9,17 @@ class CompanyProfilePage extends StatefulWidget {
 }
 class _CompanyProfilePageState extends State<CompanyProfilePage> {
   final TextEditingController companyNameController =
-  TextEditingController(text: "HumanCapital Info Tech");
+  TextEditingController(text: "Tech Elecon PVT.LTD");
   final TextEditingController companyOwnerController =
-  TextEditingController(text: "Ashish Arora");
+  TextEditingController(text: "ABC");
   final TextEditingController addressController =
-  TextEditingController(text: "Gujarat");
+  TextEditingController(text: "Anand,Gujarat");
   final TextEditingController emailController =
-  TextEditingController(text: "info@humancapital.com");
+  TextEditingController(text: "info@techelecon.com");
   final TextEditingController phoneController =
   TextEditingController(text: "9841000000");
   final TextEditingController websiteController =
-  TextEditingController(text: "https://www.humancapital.com");
+  TextEditingController(text: "https://www.techelecon.com");
 
   List<String> officeDays = [
     "Sunday",

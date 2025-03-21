@@ -51,9 +51,9 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
             child: Column(
               children: [
                 Container(
-                    margin: EdgeInsets.only(right: 145),
+                    margin: EdgeInsets.only(right: 20),
                     child: Text(
-                      'Welcome to HRMS',
+                      'Welcome to Tech Elecon HRMS',
                       style: TextStyle(
                         fontSize: 20,
                       ),
