@@ -23,41 +23,6 @@ List<LeaveRequest> leaveRequests = [
     appliedDate: "19 Nov 2022",
     status: "pending",
   ),
-  LeaveRequest(
-    name: "Krupa Patel",
-    profileImage: "assets/krupa.jpg",
-    leaveType: "Unpaid Leave",
-    leaveDate: "19 Nov - 19 Nov 2022",
-    duration: "1 day(s)",
-    leaveBalance: "0 day(s)",
-    reason: "High fever",
-    appliedDate: "19 Nov 2022",
-    status: "pending",
-  ),
-  LeaveRequest(
-    name: "Rahul Macwan",
-    profileImage: "assets/rahul.jpg",
-    leaveType: "Urgent Leave",
-    leaveDate: "19 Nov - 19 Nov 2022",
-    duration: "1 day(s)",
-    leaveBalance: "0 day(s)",
-    reason: "such as family emergencies",
-    appliedDate: "19 Nov 2022",
-    status: "pending",
-  ),
-  LeaveRequest(
-    name: "Tiksha Soni",
-    profileImage: "assets/tiksha.jpg",
-    leaveType: "casual leave ",
-    leaveDate: "19 Nov - 19 Nov 2022",
-    duration: "1 day(s)",
-    leaveBalance: "0 day(s)",
-    reason: "Personal work- going to a bank",
-    appliedDate: "19 Nov 2022",
-    status: "pending",
-  ),
-
-
 ];
 
 class LeaveRequestsScreen extends StatefulWidget {
@@ -71,33 +36,16 @@ class _LeaveRequestsScreenState extends State<LeaveRequestsScreen> {
       leaveRequests[index].status = status;
     });
   }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Leave Requests"),
-          bottom: TabBar(
-            tabs: [
-              Tab(text: "Pending Requests"),
-              Tab(text: "History"),
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: [
-            LeaveRequestList(
-              leaveRequests: leaveRequests.where((req) => req.status == "pending").toList(),
-              onUpdateStatus: _updateLeaveStatus,
-            ),
-            LeaveRequestList(
-              leaveRequests: leaveRequests.where((req) => req.status != "pending").toList(),
-              onUpdateStatus: _updateLeaveStatus,
-            ),
-          ],
-        ),
-
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Leave Requests"),
+      ),
+      body: LeaveRequestList(
+        leaveRequests: leaveRequests,
+        onUpdateStatus: _updateLeaveStatus,
       ),
     );
   }
@@ -109,20 +57,16 @@ class LeaveRequestList extends StatelessWidget {
 
   LeaveRequestList({required this.leaveRequests, required this.onUpdateStatus});
 
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: AppBar(title: Text("Leave Requests")),
-      body: ListView.builder(
-        itemCount: leaveRequests.length,
-        itemBuilder: (context, index) {
-          return LeaveRequestCard(
-            leaveRequest: leaveRequests[index],
-            onUpdateStatus: (status) => onUpdateStatus(index, status),
-          );
-        },
-      ),
+    return ListView.builder(
+      itemCount: leaveRequests.length,
+      itemBuilder: (context, index) {
+        return LeaveRequestCard(
+          leaveRequest: leaveRequests[index],
+          onUpdateStatus: (status) => onUpdateStatus(index, status),
+        );
+      },
     );
   }
 }
@@ -186,12 +130,11 @@ class LeaveRequestCard extends StatelessWidget {
                 CircleAvatar(
                   radius: 30,
                   backgroundImage: AssetImage(leaveRequest.profileImage),
-                  onBackgroundImageError: (_, __) => debugPrint("Error loading image"), // Debugging tip
                 ),
                 SizedBox(width: 10),
+                Text(leaveRequest.name, style: TextStyle(fontWeight: FontWeight.bold)),
               ],
             ),
-            Text(leaveRequest.name, style: TextStyle(fontWeight: FontWeight.bold)),
             Text("Applied on: ${leaveRequest.appliedDate}"),
             Text("Leave Type: ${leaveRequest.leaveType}"),
             Text("Duration: ${leaveRequest.duration}"),
