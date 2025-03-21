@@ -153,17 +153,17 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                 //     });
                 //   },
                 // ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      hintText: 'Search Employee',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.search),
-                    ),
-                  ),
-                ),
+                Text('All Employee List',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),)
+                // Expanded(
+                //   child: TextField(
+                //     controller: searchController,
+                //     decoration: InputDecoration(
+                //       hintText: 'Search Employee',
+                //       border: OutlineInputBorder(),
+                //       prefixIcon: Icon(Icons.search),
+                //     ),
+                //   ),
+                // ),
                 // IconButton(icon: Icon(Icons.filter_list), onPressed: () {}),
               ],
             ),

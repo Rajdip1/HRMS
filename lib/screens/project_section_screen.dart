@@ -158,21 +158,21 @@ class ProjectFilterSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 10.0),
       child: Row(
         children: [
-          Expanded(
-            child: DropdownButtonFormField(
-              decoration: InputDecoration(
-                labelText: "Search by Project",
-                border: OutlineInputBorder(),
-              ),
-              items: [],
-              onChanged: (value) {},
-            ),
-          ),
-          SizedBox(width: 10),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text("Filter"),
-          ),
+          // Expanded(
+          //   child: DropdownButtonFormField(
+          //     decoration: InputDecoration(
+          //       labelText: "Search by Project",
+          //       border: OutlineInputBorder(),
+          //     ),
+          //     items: [],
+          //     onChanged: (value) {},
+          //   ),
+          // ),
+          // SizedBox(width: 10),
+          // ElevatedButton(
+          //   onPressed: () {},
+          //   child: Text("Filter"),
+          // ),
         ],
       ),
     );
