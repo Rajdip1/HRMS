@@ -38,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Welcome To Tech Elecon HRMS",
+              "Welcome To HRMS",
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black),
             ),
             SizedBox(height: screenHeight * 0.015),

@@ -7,10 +7,8 @@ import 'package:demo/screens/project_section_screen.dart';
 import 'package:demo/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:demo/screens/Department_screen.dart';
-import 'package:demo/screens/attendance_report.dart';
 import 'package:demo/screens/clients_section.dart';
 import 'package:demo/screens/company_profile.dart';
-import '../attendance_logs_screen.dart';
 import '../attendance_screen.dart';
 import '../employee_management_screen.dart';
 
@@ -61,13 +59,13 @@ class DrawerMenu extends StatelessWidget {
             leading: Icon(Icons.business_center, color: Colors.black),
             title: Text("Company Management", style: TextStyle(color: Colors.black)),
             children: [
-              ListTile(
-                leading: Icon(Icons.apartment, color: Colors.black),
-                title: Text("Company", style: TextStyle(color: Colors.black)),
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfilePage()));
-                },
-              ),
+              // ListTile(
+              //   leading: Icon(Icons.apartment, color: Colors.black),
+              //   title: Text("Company", style: TextStyle(color: Colors.black)),
+              //   onTap: () {
+              //     Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyProfilePage()));
+              //   },
+              // ),
 
               // ListTile(
               //   leading: Icon(Icons.location_city, color: Colors.black),
@@ -80,7 +78,9 @@ class DrawerMenu extends StatelessWidget {
               ListTile(
                 leading: Icon(Icons.account_balance, color: Colors.black),
                 title: Text("Department", style: TextStyle(color: Colors.black)),
-                onTap: ()  => onNavigate(DepartmentScreen())
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => DepartmentScreen()));
+                }
               ),
               // ListTile(
               //   leading: Icon(Icons.work, color: Colors.white70),
