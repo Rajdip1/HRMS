@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -35,6 +36,42 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   // values for dropdown
   String selectGender = 'Male';
   String selectMaritaleStatus = 'Single';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchEmpData();
+  }
+  // get filled form when user open edit form for data update
+  Future<void> fetchEmpData() async {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection("users").doc(userId).get();
+
+    if(snapshot.exists) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
+      setState(() {
+        nameController.text = data['Name'] ?? '';
+        addressController.text = data['Address'] ?? '';
+        emailController.text = data['Email'] ?? '';
+        phoneController.text = data['Phone'] ?? '';
+        dateOfBirthController.text = data['Date of Birth'] ?? '';
+        selectGender = data['Gender'] ?? 'Male';
+        selectMaritaleStatus = data['Marital Status'] ?? 'Single';
+        branchController.text = data['Branch'] ?? '';
+        departmentController.text = data['Department'] ?? '';
+        supervisorController.text = data['Supervisor'] ?? '';
+        empTypeController.text = data['Employment Type'] ?? '';
+        joiningDateController.text = data['Joining Date'] ?? '';
+        officeTimeController.text = data['Office Time'] ?? '';
+        bankNameController.text = data['Bank Name'] ?? '';
+        bankAccNumController.text = data['Bank Account Number'] ?? '';
+        bankAccHolderNameController.text = data['Account Holder Name'] ?? '';
+        bankAccTypeController.text = data['Bank Account Type'] ?? '';
+      });
+    }
+  }
 
   //function for add data
   add() async {

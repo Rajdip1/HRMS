@@ -1,4 +1,5 @@
 import 'package:demo/authentication%20screens/sign_in_screen.dart';
+import 'package:demo/employee_management/update_request_screen.dart';
 import 'package:demo/screens/settings_screen.dart';
 import 'package:demo/leave_management/leave_approval_screen.dart';
 import 'package:demo/leave_management/leave_reject_screen.dart';
@@ -100,14 +101,21 @@ class DrawerMenu extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeManagementScreen()));
                 },
               ),
+              ListTile(
+                leading: Icon(Icons.update, color: Colors.black),
+                title: Text("Update Request", style: TextStyle(color: Colors.black)),
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => UpdateRequestScreen()));
+                },
+              ),
             ],
           ),
           ExpansionTile(
-            leading: Icon(Icons.access_time, color: Colors.black),
+            leading: Icon(Icons.calendar_month_sharp, color: Colors.black),
             title: Text("Attendance Section", style: TextStyle(color: Colors.black)),
             children: [
               ListTile(
-                leading: Icon(Icons.timer_sharp, color: Colors.black),
+                leading: Icon(Icons.calendar_month_sharp, color: Colors.black),
                 title: Text("Attendance", style: TextStyle(color: Colors.black)),
                 onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => AttendanceScreen()));
@@ -130,7 +138,7 @@ class DrawerMenu extends StatelessWidget {
             ],
           ),
     ExpansionTile(
-    leading: Icon(Icons.timer_sharp, color: Colors.black),
+    leading: Icon(Icons.add_chart, color: Colors.black),
     title: Text("Project Managment", style: TextStyle(color: Colors.black)),
     children: [
       ListTile(

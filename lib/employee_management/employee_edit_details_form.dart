@@ -1,8 +1,6 @@
-import 'package:demo/services/database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:random_string/random_string.dart';
 
 class EmployeeEditDetailsForm extends StatefulWidget {
   const EmployeeEditDetailsForm({super.key});
@@ -34,12 +32,46 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
   String selectGender = 'Male';
   String selectMaritaleStatus = 'Single';
 
-  //function to add data
-  add() async {
-    String id = randomAlphaNumeric(10);
+  @override
+  void initState() {
+    super.initState();
+    fetchEmpData();
+  }
+  // get filled form when user open edit form for data update
+  Future<void> fetchEmpData() async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
-    Map<String,dynamic> employeeInfoMap = {
-      'id': id,
+
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection("users").doc(userId).get();
+
+    if(snapshot.exists) {
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+
+      setState(() {
+        nameController.text = data['Name'] ?? '';
+        addressController.text = data['Address'] ?? '';
+        emailController.text = data['Email'] ?? '';
+        phoneController.text = data['Phone'] ?? '';
+        dateOfBirthController.text = data['Date of Birth'] ?? '';
+        selectGender = data['Gender'] ?? 'Male';
+        selectMaritaleStatus = data['Marital Status'] ?? 'Single';
+        branchController.text = data['Branch'] ?? '';
+        departmentController.text = data['Department'] ?? '';
+        supervisorController.text = data['Supervisor'] ?? '';
+        empTypeController.text = data['Employment Type'] ?? '';
+        joiningDateController.text = data['Joining Date'] ?? '';
+        officeTimeController.text = data['Office Time'] ?? '';
+        bankNameController.text = data['Bank Name'] ?? '';
+        bankAccNumController.text = data['Bank Account Number'] ?? '';
+        bankAccHolderNameController.text = data['Account Holder Name'] ?? '';
+        bankAccTypeController.text = data['Bank Account Type'] ?? '';
+      });
+    }
+  }
+
+  Future<void> updateRequest() async {
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+
+    Map<String, dynamic> updateData = {
       'Name': nameController.text,
       'Address': addressController.text,
       'Email': emailController.text,
@@ -58,17 +90,15 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
       'Account Holder Name': bankAccHolderNameController.text,
       'Bank Account Type': bankAccTypeController.text
     };
-    await DatabaseMethods().addEmployeeData(employeeInfoMap, userId).then((value) {
-      Fluttertoast.showToast(
-          msg: "Your details has added successfully",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
+    await FirebaseFirestore.instance.collection("requests").add({
+      'userId': userId,
+      'updateData': updateData,
+      'status': 'pending',
+      'rewuestedAt': FieldValue.serverTimestamp()
     });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Update request sent to HR")),
+    );
   }
 
 
@@ -137,11 +167,12 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
                   ElevatedButton(
                     onPressed: () {
                       if(_formKey.currentState!.validate()) {
-                        add();
+                        // add();
+                        updateRequest();
                       }
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                    child: Text("Edit Data"),
+                    child: Text("Submit"),
                   ),
 
                   // ElevatedButton(
