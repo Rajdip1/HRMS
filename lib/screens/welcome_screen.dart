@@ -1,4 +1,4 @@
-import 'package:demo/screens/dashboard_screen.dart';
+import 'package:HRMS/screens/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatelessWidget {

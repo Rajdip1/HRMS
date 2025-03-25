@@ -1,9 +1,10 @@
+import 'package:HRMS/screens/dashboard_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo/authentication%20screens/sign_in_screen.dart';
-import 'package:demo/employee_management/employee_home_screen.dart';
-import 'package:demo/screens/dashboard_screen.dart';
+import 'package:HRMS/authentication screens/sign_in_screen.dart';
+import 'package:HRMS/employee_management/employee_home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});

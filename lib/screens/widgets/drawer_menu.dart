@@ -1,15 +1,14 @@
-import 'package:demo/authentication%20screens/sign_in_screen.dart';
-import 'package:demo/employee_management/update_request_screen.dart';
-import 'package:demo/screens/settings_screen.dart';
-import 'package:demo/leave_management/leave_approval_screen.dart';
-import 'package:demo/leave_management/leave_reject_screen.dart';
-import 'package:demo/leave_management/leave_request_screen.dart';
-import 'package:demo/screens/project_section_screen.dart';
-import 'package:demo/services/auth_service.dart';
+import 'package:HRMS/authentication%20screens/sign_in_screen.dart';
+import 'package:HRMS/employee_management/update_request_screen.dart';
+import 'package:HRMS/screens/settings_screen.dart';
+import 'package:HRMS/leave_management/leave_approval_screen.dart';
+import 'package:HRMS/leave_management/leave_reject_screen.dart';
+import 'package:HRMS/leave_management/leave_request_screen.dart';
+import 'package:HRMS/screens/project_section_screen.dart';
+import 'package:HRMS/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:demo/screens/Department_screen.dart';
-import 'package:demo/screens/clients_section.dart';
-import 'package:demo/screens/company_profile.dart';
+import 'package:HRMS/screens/Department_screen.dart';
+import 'package:HRMS/screens/clients_section.dart';
 import '../attendance_screen.dart';
 import '../employee_management_screen.dart';
 

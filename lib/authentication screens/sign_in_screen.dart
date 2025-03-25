@@ -1,7 +1,7 @@
-import 'package:demo/authentication%20screens/sign_up_screen.dart';
-import 'package:demo/employee_management/employee_home_screen.dart';
-import 'package:demo/screens/dashboard_screen.dart';
-import 'package:demo/services/auth_service.dart';
+import 'package:HRMS/authentication%20screens/sign_up_screen.dart';
+import 'package:HRMS/employee_management/employee_home_screen.dart';
+import 'package:HRMS/screens/dashboard_screen.dart';
+import 'package:HRMS/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {

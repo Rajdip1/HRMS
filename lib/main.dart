@@ -1,5 +1,5 @@
-import 'package:demo/providers/theme_provider.dart';
-import 'package:demo/splash_screen.dart';
+import 'package:HRMS/providers/theme_provider.dart';
+import 'package:HRMS/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

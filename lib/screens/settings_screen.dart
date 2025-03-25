@@ -1,4 +1,4 @@
-import 'package:demo/providers/theme_provider.dart';
+import 'package:HRMS/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
