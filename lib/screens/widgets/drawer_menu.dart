@@ -139,7 +139,7 @@ class DrawerMenu extends StatelessWidget {
           ),
     ExpansionTile(
     leading: Icon(Icons.add_chart, color: Colors.black),
-    title: Text("Project Managment", style: TextStyle(color: Colors.black)),
+    title: Text("Project Management", style: TextStyle(color: Colors.black)),
     children: [
       ListTile(
         leading: Icon(Icons.apps_sharp, color: Colors.black),

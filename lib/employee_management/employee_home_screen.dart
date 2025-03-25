@@ -219,7 +219,7 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => EmployeeEditDetailsForm()));
+                      builder: (context) => EmployeeEditDetailsForm(empId: '',)));
             },
           ),
           ListTile(

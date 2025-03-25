@@ -1,20 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:random_string/random_string.dart';
 
-import '../services/database.dart';
+class EmployeeEditDetailsForm extends StatefulWidget {
+  final String empId;
 
-class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({super.key});
+  const EmployeeEditDetailsForm({super.key, required this.empId});
 
   @override
-  _EditProfileScreenState createState() => _EditProfileScreenState();
+  State<EmployeeEditDetailsForm> createState() => _EmployeeEditDetailsFormState();
 }
 
-class _EditProfileScreenState extends State<EditProfileScreen> {
-
+class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final TextEditingController nameController = new TextEditingController();
@@ -46,7 +43,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future<void> fetchEmpData() async {
     String userId = FirebaseAuth.instance.currentUser!.uid;
 
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection("users").doc(userId).get();
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance.collection("users").doc(widget.empId).get();
 
     if(snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
@@ -73,12 +70,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  //function for add data
-  add() async {
-    String id = randomAlphaNumeric(10);
-    String userId = FirebaseAuth.instance.currentUser!.uid;
-    Map<String,dynamic> employeeInfoMap = {
-      'id': id,
+  // update data
+  Future<void> updateEmployeeData() async {
+    await FirebaseFirestore.instance.collection("users").doc(widget.empId).update({
       'Name': nameController.text,
       'Address': addressController.text,
       'Email': emailController.text,
@@ -95,20 +89,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       'Bank Name': bankNameController.text,
       'Bank Account Number': bankAccNumController.text,
       'Account Holder Name': bankAccHolderNameController.text,
-      'Bank Account Type': bankAccTypeController.text
-    };
-    await DatabaseMethods().addEmployeeData(employeeInfoMap, userId).then((value) {
-      Fluttertoast.showToast(
-          msg: "Your details has added successfully",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          fontSize: 16.0
-      );
+      'Bank Account Type': bankAccTypeController.text,
     });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Employee details updated successfully!")),
+    );
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -174,11 +162,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if(_formKey.currentState!.validate()) {
-                        add();
+                        // add();
+                        updateEmployeeData();
                       }
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                    child: Text("Edit Data"),
+                    child: Text("Submit"),
                   ),
 
                   // ElevatedButton(
@@ -211,24 +200,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       padding: const EdgeInsets.all(10),
       child: TextFormField(
         controller: controller,
-        validator: (val) {
-          if(val==null || val.isEmpty) {
-            return errorMessage;
-          }
-          return null;
-        },
-        style: TextStyle(color: Colors.black),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(color: Colors.black),
-          hintStyle: TextStyle(color: Colors.black),
-          filled: true,
-          fillColor: Colors.white24,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide.none,
-          ),
-        ),
+        validator: (val) => val!.isEmpty ? errorMessage : null,
+        decoration: InputDecoration(labelText: label, border: OutlineInputBorder()),
       ),
     );
   }

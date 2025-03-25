@@ -3,10 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeEditDetailsForm extends StatefulWidget {
-  const EmployeeEditDetailsForm({super.key});
+  const EmployeeEditDetailsForm({super.key, required this.empId});
 
   @override
   State<EmployeeEditDetailsForm> createState() => _EmployeeEditDetailsFormState();
+  final String empId;
 }
 
 class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
