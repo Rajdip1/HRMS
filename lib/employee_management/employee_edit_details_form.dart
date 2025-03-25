@@ -206,24 +206,8 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
       padding: const EdgeInsets.all(10),
       child: TextFormField(
         controller: controller,
-        validator: (val) {
-          if(val==null || val.isEmpty) {
-            return errorMessage;
-          }
-          return null;
-        },
-        style: TextStyle(color: Colors.black),
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(color: Colors.black),
-          hintStyle: TextStyle(color: Colors.black),
-          filled: true,
-          fillColor: Colors.white24,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide.none,
-          ),
-        ),
+        validator: (val) => val!.isEmpty ? errorMessage : null,
+        decoration: InputDecoration(labelText: label, border: OutlineInputBorder()),
       ),
     );
   }
