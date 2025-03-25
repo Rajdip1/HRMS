@@ -49,43 +49,54 @@ class _UpdateRequestScreenState extends State<UpdateRequestScreen> {
               // print("Displaying request for userId: ${data['userId']}");
 
               return Card(
-                elevation: 10,
+                color: Colors.blue[100],
                 margin: EdgeInsets.all(8),
                 child: Column(
                   children: [
                     ListTile(
-                      title: Text("Employee ID: ${data['userId']}",style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold),),
+                      title: Text("Emp ID: ${data['userId']}",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: updatedData.entries.map((entry) {
-                          return Text("${entry.key}: ${entry.value}",style: TextStyle(fontSize: 18),);
+                          return Text("${entry.key}: ${entry.value}",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),);
                         }).toList(),
                       ),
-                      // trailing: Row(
-                      //   mainAxisSize: MainAxisSize.min,
-                      //   children: [
-                      //     IconButton(
-                      //       icon: Icon(Icons.check, color: Colors.green),
-                      //       onPressed: () => approveOrReject(request.id, true),
-                      //     ),
-                      //     IconButton(
-                      //       icon: Icon(Icons.close, color: Colors.red),
-                      //       onPressed: () => approveOrReject(request.id, false),
-                      //     ),
-                      //   ],
-                      // ),
                     ),
+                    Divider(thickness: 2,color: Colors.black,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        IconButton(
-                            onPressed: () => DatabaseMethods().approveOrReject(request.id, true),
-                            icon: Icon(Icons.check,size: 60,)
+                        TextButton.icon(
+                          onPressed: () => DatabaseMethods().approveOrReject(request.id, true),
+                          icon: Icon(Icons.check,color: Colors.green,size: 40,),
+                          label: Text('Approve',style: TextStyle(fontSize: 25),),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            textStyle: TextStyle(fontSize: 18),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12), // Adjust radius as needed
+                            ),
+                          ),
                         ),
-                        IconButton(
-                            onPressed: () => DatabaseMethods().approveOrReject(request.id, false),
-                            icon: Icon(Icons.close,size: 60,)
+                        // Horizontal Line
+                        Container(
+                          height: 40, // Adjust height as needed
+                          width: 2, // Thickness of the line
+                          color: Colors.grey, // Line color
                         ),
+                        TextButton.icon(
+                          onPressed: () => DatabaseMethods().approveOrReject(request.id, false),
+                          icon: Icon(Icons.close,color: Colors.red,size: 40,),
+                          label: Text('Reject',style: TextStyle(fontSize: 25),),
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            textStyle: TextStyle(fontSize: 18),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12), // Same radius for consistency
+                            ),
+                          ),
+                        )
+
                       ],
                     )
                   ],
