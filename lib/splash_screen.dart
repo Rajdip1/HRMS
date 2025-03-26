@@ -32,9 +32,9 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Image.asset('assets/hr_logo.png', height: 100),
             const SizedBox(height: 20),
-            const CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-            ),
+            // const CircularProgressIndicator(
+            //   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+            // ),
             const SizedBox(height: 20),
             const Text(
               "Loading HRMS...",

@@ -1,3 +1,5 @@
+import 'package:HRMS/authentication%20screens/sign_in_screen.dart';
+import 'package:HRMS/authentication%20screens/sign_up_screen.dart';
 import 'package:HRMS/providers/theme_provider.dart';
 import 'package:HRMS/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
