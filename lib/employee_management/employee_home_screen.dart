@@ -42,6 +42,7 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Color(0xFFEEEEEE),
         appBar: AppBar(
           title: Text('Employee Home'),
         ),
@@ -137,7 +138,7 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
             child: Container(
               margin: EdgeInsets.only(left: 15,right: 15),
               child: Card(
-                color: Colors.blue[200],
+                color: Colors.white,
                 elevation: 10,
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
