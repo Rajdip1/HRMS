@@ -41,7 +41,7 @@ class LeaveRequestsScreen extends StatelessWidget {
                         children: [
                           const CircleAvatar(
                             radius: 30,
-                            child: Icon(Icons.person),
+                            child: Icon(Icons.person,size: 40,),
                           ),
                           const SizedBox(width: 12),
                           Text(
