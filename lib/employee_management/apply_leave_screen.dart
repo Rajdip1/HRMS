@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ApplyLeaveScreen extends StatefulWidget {
@@ -8,14 +9,30 @@ class ApplyLeaveScreen extends StatefulWidget {
 }
 
 class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
-  final TextEditingController causeController = TextEditingController(text: 'Trip to Anand');
-  final TextEditingController fromController = TextEditingController(text: 'Mon, 21 Dec 2025');
-  final TextEditingController toController = TextEditingController(text: 'Wed, 23 Dec 2025');
+  final TextEditingController nameController = TextEditingController(text: '');
+  final TextEditingController causeController = TextEditingController(text: '');
+  final TextEditingController fromController = TextEditingController(text: '');
+  final TextEditingController toController = TextEditingController(text: '');
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String selectedLeaveType = 'Casual Leave';
   final List<String> leaveTypes = ['Sick Leave', 'Annual Leave', 'Casual Leave'];
+
+  applyLeave() async {
+    await FirebaseFirestore.instance.collection("leave_requests").add({
+      'EmployeeName': nameController.text,
+      'Leave Type': selectedLeaveType,
+      'Cause' : causeController.text,
+      'From' : fromController.text,
+      'To' : toController.text,
+      'Status': 'pending',
+      'time stamp': FieldValue.serverTimestamp()
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Leave Applied Successfully!')),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +46,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
           key: _formKey,
           child: Column(
             children: [
+              EditableLeaveDetail(controller: nameController, label: 'Name'),
               DropdownButtonFormField<String>(
                 value: selectedLeaveType,
                 decoration: const InputDecoration(
@@ -57,10 +75,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                   child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // Handle leave application submission
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Leave Applied Successfully!'))
-                        );
+                        applyLeave();
                       }
                     },
                     style: ElevatedButton.styleFrom(
