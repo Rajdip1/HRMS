@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 import '../services/database.dart';
 import 'edit_profile.dart';
 
@@ -29,10 +31,11 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // Listen for theme changes
     return Scaffold(
       appBar: AppBar(
         title: Text('Employee Management', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[900] : Colors.white,
       ),
       body: Padding(
         padding: EdgeInsets.all(10.0),

@@ -21,12 +21,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      themeMode: themeProvider.themeMode,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      home:  SplashScreen(),
+    return SafeArea(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        themeMode: themeProvider.themeMode,
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        home:  SplashScreen(),
+      ),
     );
   }
 }

@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:HRMS/screens/widgets/drawer_menu.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -36,14 +39,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
+    final themeProvider = Provider.of<ThemeProvider>(context); // Listen for theme changes
+
     return Scaffold(
-      backgroundColor: Colors.white,
+        backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.black : Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.black : Colors.white,
         elevation: 0,
         title: Text(
           "HR Home",
-          style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold
+          ),
         ),
         // actions: [
         //   IconButton(icon: Icon(Icons.search, color: Colors.black), onPressed: () {}),
@@ -61,7 +70,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             Text(
               "Welcome To HRMS",
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,
+                  color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
+              ),
             ),
             SizedBox(height: screenHeight * 0.015),
             GridView.count(

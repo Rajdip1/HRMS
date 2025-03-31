@@ -1,9 +1,12 @@
-import 'package:HRMS/authentication%20screens/sign_up_screen.dart';
+import 'package:HRMS/authentication screens/sign_up_screen.dart';
 import 'package:HRMS/employee_management/employee_home_screen.dart';
 import 'package:HRMS/screens/dashboard_screen.dart';
 import 'package:HRMS/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -46,7 +49,11 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final themeProvider = Provider.of<ThemeProvider>(context); // Listen for theme changes
+
     return Scaffold(
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.black : Colors.white,
       body: Stack(
         children: [
           Align(
@@ -68,7 +75,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Color(0xFFEEEEEE),
+                      color: themeProvider.themeMode == ThemeMode.dark ? Colors.black : Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Padding(
@@ -124,7 +131,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   width: 300,
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFE0E0E0),
+                                    color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[800] : Colors.grey[300],
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   child: DropdownButtonHideUnderline(
@@ -133,7 +140,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                       hint: Text(
                                         'Select Role',
                                         style: GoogleFonts.openSans(
-                                          color: Color(0x7F455A64),
+                                          color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
                                         ),
                                       ),
                                       isExpanded: true,
@@ -143,7 +150,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                           child: Text(
                                             role,
                                             style: GoogleFonts.openSans(
-                                              color: Color(0xFF455A64),
+                                              color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
                                             ),
                                           ),
                                         );
@@ -184,9 +191,9 @@ class _SignInScreenState extends State<SignInScreen> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: Size(300, 50),
-                                    backgroundColor: Colors.black,
+                                    backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[800] : Colors.white, // Adapts to theme,
                                     textStyle: GoogleFonts.openSans(
-                                      color: Colors.white,
+                                      color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black, // Adapts to theme
                                       fontSize: 16,
                                     ),
                                     elevation: 2,
@@ -196,7 +203,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   ),
                                   child: Text(
                                     'Sign In',
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,),
                                   ),
                                 ),
                               ),
@@ -212,7 +219,7 @@ class _SignInScreenState extends State<SignInScreen> {
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontFamily: 'Playfair Display',
-                                    color: Color(0xFF1F1F1F),
+                                    color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
                                   ),
                                 ),
                               ),

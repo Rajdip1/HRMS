@@ -1,7 +1,9 @@
 import 'package:HRMS/authentication%20screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/theme_provider.dart';
 import '../services/auth_service.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -25,7 +27,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final themeProvider = Provider.of<ThemeProvider>(context); // Listen for theme changes
+
     return Scaffold(
+      backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.black : Colors.white,
       body: Stack(
         children: [
           Align(
@@ -48,7 +54,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     width: double.infinity,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Color(0xFFEEEEEE),
+                      color: themeProvider.themeMode == ThemeMode.dark ? Colors.black : Colors.white,
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Padding(
@@ -102,7 +108,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   width: 300,
                                   padding: EdgeInsets.symmetric(horizontal: 20),
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFE0E0E0),
+                                    color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[800] : Colors.grey[300],
                                     borderRadius: BorderRadius.circular(25),
                                   ),
                                   child: DropdownButtonHideUnderline(
@@ -111,7 +117,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       hint: Text(
                                         'Select Role',
                                         style: GoogleFonts.openSans(
-                                          color: Color(0x7F455A64),
+                                          color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
                                         ),
                                       ),
                                       isExpanded: true,
@@ -121,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           child: Text(
                                             role,
                                             style: GoogleFonts.openSans(
-                                              color: Color(0xFF455A64),
+                                              color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
                                             ),
                                           ),
                                         );
@@ -163,9 +169,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: Size(300, 50),
-                                    backgroundColor: Colors.black,
+                                    backgroundColor: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[800] : Colors.white,
                                     textStyle: GoogleFonts.openSans(
-                                      color: Colors.white,
+                                      color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
                                       fontSize: 16,
                                     ),
                                     elevation: 2,
@@ -175,7 +181,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                   child: Text(
                                     'Sign Up',
-                                    style: TextStyle(color: Colors.white),
+                                    style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,),
                                   ),
                                 ),
                               ),
@@ -187,11 +193,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           builder: (context) => SignInScreen()));
                                 },
                                 child: Text(
-                                  'Already have an account',
+                                  'Already have an account ?',
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontFamily: 'Playfair Display',
-                                    color: Color(0xFF1F1F1F),
+                                    color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,
                                   ),
                                 ),
                               ),

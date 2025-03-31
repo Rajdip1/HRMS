@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:HRMS/services/database.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 
 class UpdateRequestScreen extends StatefulWidget {
   const UpdateRequestScreen({super.key});
@@ -12,6 +14,9 @@ class UpdateRequestScreen extends StatefulWidget {
 class _UpdateRequestScreenState extends State<UpdateRequestScreen> {
 
   Widget build(BuildContext context) {
+
+    final themeProvider = Provider.of<ThemeProvider>(context); // Listen for theme changes
+
     return Scaffold(
       appBar: AppBar(title: Text("Approve Requests")),
       body: StreamBuilder<QuerySnapshot>(
@@ -48,58 +53,60 @@ class _UpdateRequestScreenState extends State<UpdateRequestScreen> {
 
               // print("Displaying request for userId: ${data['userId']}");
 
-              return Card(
-                color: Colors.blue[100],
-                margin: EdgeInsets.all(8),
-                child: Column(
-                  children: [
-                    ListTile(
-                      title: Text("Emp ID: ${data['userId']}",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                      subtitle: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: updatedData.entries.map((entry) {
-                          return Text("${entry.key}: ${entry.value}",style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),);
-                        }).toList(),
+              return Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Card(
+                  color: themeProvider.themeMode == ThemeMode.dark ? Colors.grey[800] : Colors.white,
+                  margin: EdgeInsets.all(8),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text("Emp ID: ${data['userId']}",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold,
+                        color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black),),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: updatedData.entries.map((entry) {
+                            return Text("${entry.key}: ${entry.value}",style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold,
+                            color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black),);
+                          }).toList(),
+                        ),
                       ),
-                    ),
-                    Divider(thickness: 2,color: Colors.black,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        TextButton.icon(
-                          onPressed: () => DatabaseMethods().approveOrReject(request.id, true),
-                          icon: Icon(Icons.check,color: Colors.green,size: 40,),
-                          label: Text('Approve',style: TextStyle(fontSize: 25),),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            textStyle: TextStyle(fontSize: 18),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12), // Adjust radius as needed
+                      Divider(thickness: 3,color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () => DatabaseMethods().approveOrReject(request.id, true),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: Text(
+                              "Approve",
+                              style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black),
                             ),
                           ),
-                        ),
-                        // Horizontal Line
-                        Container(
-                          height: 40, // Adjust height as needed
-                          width: 2, // Thickness of the line
-                          color: Colors.grey, // Line color
-                        ),
-                        TextButton.icon(
-                          onPressed: () => DatabaseMethods().approveOrReject(request.id, false),
-                          icon: Icon(Icons.close,color: Colors.red,size: 40,),
-                          label: Text('Reject',style: TextStyle(fontSize: 25),),
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                            textStyle: TextStyle(fontSize: 18),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12), // Same radius for consistency
+                          ElevatedButton(
+                            onPressed: () => DatabaseMethods().approveOrReject(request.id, false),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                              foregroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: Text(
+                                "Reject",
+                              style: TextStyle(color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black),
                             ),
                           ),
-                        )
-
-                      ],
-                    )
-                  ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               );
             },
