@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:HRMS/screens/widgets/drawer_menu.dart';
 
@@ -9,6 +10,27 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+
+  int totalEmp = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getTotalEmp();
+  }
+
+  void getTotalEmp() async {
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("users").get();
+      setState(() {
+        totalEmp = snapshot.size;  //it will count number of employees from DB
+      });
+    }
+    catch (e) {
+      print('Error getting employee count: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -50,7 +72,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               mainAxisSpacing: screenHeight * 0.015,
               childAspectRatio: screenWidth > 600 ? 1.8 : 1.5,
               children: [
-                _buildDashboardCard("Total Employees", "2", Icons.people),
+                _buildDashboardCard("Total Employees", "$totalEmp", Icons.people),
                 _buildDashboardCard("Total Departments", "3", Icons.layers),
                 _buildDashboardCard("Total Holidays", "1", Icons.beach_access),
                 _buildDashboardCard("Paid Leaves", "273", Icons.event_available),
