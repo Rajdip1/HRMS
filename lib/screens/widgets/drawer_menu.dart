@@ -209,14 +209,14 @@ class DrawerMenu extends StatelessWidget {
         leading: Icon(Icons.approval, color: Colors.black),
         title: Text("Leave Approval", style: TextStyle(color: Colors.black)),
         onTap: () {
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => LeaveApprovalScreen(leaveRequests: leaveRequests)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LeaveApprovalScreen()));
         },
       ),
       ListTile(
         leading: Icon(Icons.approval, color: Colors.black),
         title: Text("Leave Reject", style: TextStyle(color: Colors.black)),
         onTap: () {
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => LeaveRejectedScreen(leaveRequests: leaveRequests)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => LeaveRejectScreen()));
         },
       ),
     ],
