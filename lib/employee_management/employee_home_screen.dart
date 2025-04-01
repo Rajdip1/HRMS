@@ -8,6 +8,8 @@ import 'package:HRMS/services/auth_service.dart';
 import 'package:HRMS/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 
 class EmployeeHomeScreen extends StatefulWidget {
   const EmployeeHomeScreen({super.key});
@@ -17,301 +19,175 @@ class EmployeeHomeScreen extends StatefulWidget {
 }
 
 class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
-
-  final TextEditingController nameController = new TextEditingController();
-  final TextEditingController emailController = new TextEditingController();
-  final TextEditingController departmentController = new TextEditingController();
-
-  String? id = FirebaseAuth.instance.currentUser?.uid;
-
-
-  Stream<DocumentSnapshot>? EmployeeStream;
-
-  getOnTheLoad() async {
-    EmployeeStream = DatabaseMethods().getEmployeeDetails(id!);
-    setState(() {});
-  }
-
+  final String? id = FirebaseAuth.instance.currentUser?.uid;
+  Stream<DocumentSnapshot>? employeeStream;
 
   @override
   void initState() {
     super.initState();
-    getOnTheLoad();
+    if (id != null) {
+      employeeStream = DatabaseMethods().getEmployeeDetails(id!);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
+
     return Scaffold(
-      // backgroundColor: Color(0xFFEEEEEE),
-        appBar: AppBar(
-          title: Text('Employee Home'),
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      appBar: AppBar(
+        backgroundColor: isDarkMode ? Colors.black : Colors.white,
+        iconTheme: IconThemeData(
+          color: isDarkMode ? Colors.white : Colors.black,
         ),
-        drawer: _widgetDrawer(context),
-        body: Container(
-          margin: EdgeInsets.only(top: 10),
-          child: Center(
-            child: Column(
-              children: [
-                Container(
-                    margin: EdgeInsets.only(right: 20),
-                    child: Text(
-                      'Welcome to HRMS',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    )
-                ),
-                SizedBox(height: 20,),
-                Center(
-                  child: employeeDetails(),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-
-                SizedBox(height: 20.0,),
-
-                //time box
-                // Container(
-                //   margin: EdgeInsets.only(left: 15,right: 15),
-                //   padding: EdgeInsets.all(16.0),
-                //   decoration: BoxDecoration(
-                //       color: Colors.black87,
-                //       borderRadius: BorderRadius.circular(12)
-                //   ),
-                //   child:  Column(
-                //     children: [
-                //       Row(
-                //         mainAxisAlignment: MainAxisAlignment.center,
-                //         children: [
-                //           TimerBox(value: "00"),
-                //           const SizedBox(width: 8),
-                //           TimerBox(value: "00"),
-                //           const SizedBox(width: 8),
-                //           TimerBox(value: "00"),
-                //           const SizedBox(width: 8),
-                //           const Text(
-                //             "HRS",
-                //             style: TextStyle(color: Colors.white, fontSize: 16),
-                //           ),
-                //         ],
-                //       ),
-                //       SizedBox(height: 8),
-                //       const Text(
-                //         "GENERAL 09:00 AM TO 06:00 PM",
-                //         style: TextStyle(color: Colors.white70, fontSize: 14),
-                //       ),
-                //     ],
-                //   ),
-                // )
-
-              ],
-            ),
-          ),
-        ));
-  }
-
-  //function to display data of logged in employee
-  Widget employeeDetails() {
-
-    return StreamBuilder<DocumentSnapshot>(
-        stream: EmployeeStream,
-        builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          // print("Snapshot Data: ${snapshot.data?.data()}");
-          //
-          // print("Snapshot hasData: ${snapshot.hasData}");
-          // print("Snapshot data: ${snapshot.data}");
-          // print("Document exists: ${snapshot.data?.exists}");
-
-          if(snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator(),);
-          }
-          if(!snapshot.hasData || snapshot.data == null || !snapshot.data!.exists) {
-            return Center(child: Text('No data found'),);
-          }
-
-          var employeeData = snapshot.data!.data() as Map<String,dynamic>;
-
-          return SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 180,
-            child: Container(
-              margin: EdgeInsets.only(left: 15,right: 15),
-              child: Card(
-                color: Colors.white,
-                elevation: 10,
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Name : ${employeeData['Name']}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16,),
-                      ),
-                      SizedBox(height: 8.0,),
-                      Text(
-                        'Email : ${employeeData['Email']}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16,),
-                      ),
-                      SizedBox(height: 8.0,),
-                      Text(
-                        'Role : Employee',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16,),
-                      ),
-                      SizedBox(height: 8.0,),
-                      Text(
-                        'Department : ${employeeData['Department']}',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16,),
-                      ),
-                    ],
-                  ),
+        title: Text(
+          'Employee Home',
+          style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+        ),
+      ),
+      drawer: _widgetDrawer(context, isDarkMode),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10.0),
+        child: Center(
+          child: Column(
+            children: [
+              Text(
+                'Welcome to HRMS',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
-            ),
-          );
-        }
+              const SizedBox(height: 20),
+              employeeDetails(isDarkMode),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Widget _widgetDrawer(BuildContext context) {
+  Widget employeeDetails(bool isDarkMode) {
+    return StreamBuilder<DocumentSnapshot>(
+      stream: employeeStream,
+      builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (!snapshot.hasData || snapshot.data == null || !snapshot.data!.exists) {
+          return const Center(child: Text('No data found'));
+        }
+
+        var employeeData = snapshot.data!.data() as Map<String, dynamic>;
+
+        return Card(
+          color: isDarkMode ? Colors.grey[700] : Colors.white,
+          elevation: 10,
+          margin: const EdgeInsets.symmetric(horizontal: 15),
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _employeeDetailText('Name', employeeData['Name'], isDarkMode),
+                _employeeDetailText('Email', employeeData['Email'], isDarkMode),
+                _employeeDetailText('Role', 'Employee', isDarkMode),
+                _employeeDetailText('Department', employeeData['Department'], isDarkMode),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _employeeDetailText(String label, String value, bool isDarkMode) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text(
+        '$label: $value',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: isDarkMode ? Colors.white : Colors.black,
+        ),
+      ),
+    );
+  }
+
+  Widget _widgetDrawer(BuildContext context, bool isDarkMode) {
     return Drawer(
+      backgroundColor: isDarkMode ? Colors.grey[900] : Colors.white,
       child: ListView(
         children: [
           DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Row(
-                children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        Image.asset(
-                          'assets/illustration.png', // Replace with your logo asset
-                          height: 180,
-                          width: 180,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          'HRMS',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 26,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+            decoration: BoxDecoration(color: isDarkMode ? Colors.black : Colors.blue),
+            child: Row(
+              children: [
+                Image.asset(
+                  'assets/illustration.png',
+                  height: 150,
+                  width: 150,
+                ),
+                const SizedBox(width: 10),
+                Text(
+                  'HRMS',
+                  style: TextStyle(
+                    color: isDarkMode ? Colors.white : Colors.black,
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
                   ),
-                ],
-              )
-          ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text(
-              'Edit Profile',
-              style: TextStyle(color: Colors.black),
+                ),
+              ],
             ),
-            tileColor: Colors.white,
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => EmployeeEditDetailsForm(empId: '',)));
-            },
           ),
-          ListTile(
-            leading: Icon(Icons.schedule),
-            title: Text(
-              'Attendance',
-              style: TextStyle(color: Colors.black),
-            ),
-            tileColor: Colors.white,
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AttendanceScreen()));
-            },
-          ),
-          // ListTile(
-          //   leading: Icon(Icons.notifications),
-          //   title: Text(
-          //     'Notifications',
-          //     style: TextStyle(color: Colors.black),
-          //   ),
-          //   tileColor: Colors.white,
-          //   onTap: () {},
-          // ),
-          ListTile(
-            leading: Icon(Icons.time_to_leave),
-            title: Text(
-              'Apply Leave',
-              style: TextStyle(color: Colors.black),
-            ),
-            tileColor: Colors.white,
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ApplyLeaveScreen()));
-            },
-          ),
-          // ListTile(
-          //   leading: Icon(Icons.payment),
-          //   title: Text(
-          //     'Payrolls',
-          //     style: TextStyle(color: Colors.black),
-          //   ),
-          //   tileColor: Colors.white,
-          //   onTap: () {},
-          // ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text(
-              'Settings',
-              style: TextStyle(color: Colors.black),
-            ),
-            tileColor: Colors.white,
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.logout),
-            title: Text(
-              'Log out',
-              style: TextStyle(color: Colors.black),
-            ),
-            tileColor: Colors.white,
-            onTap: () async {
-              await AuthServiceMethods().SignOut();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SignInScreen()));
-            },
-          )
+          _drawerItem(Icons.person, 'Edit Profile', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => EmployeeEditDetailsForm(empId: '')),
+            );
+          }, isDarkMode),
+          _drawerItem(Icons.schedule, 'Attendance', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AttendanceScreen()),
+            );
+          }, isDarkMode),
+          _drawerItem(Icons.time_to_leave, 'Apply Leave', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ApplyLeaveScreen()),
+            );
+          }, isDarkMode),
+          _drawerItem(Icons.settings, 'Settings', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SettingsScreen()),
+            );
+          }, isDarkMode),
+          _drawerItem(Icons.logout, 'Log out', () async {
+            await AuthServiceMethods().SignOut();
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => SignInScreen()),
+            );
+          }, isDarkMode),
         ],
       ),
     );
   }
-}
 
-// class TimerBox extends StatelessWidget {
-//   final String value;
-//
-//   const TimerBox({super.key, required this.value});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.all(8),
-//       decoration: BoxDecoration(
-//         color: Colors.pink[100],
-//         borderRadius: BorderRadius.circular(8),
-//       ),
-//       child: Text(
-//         value,
-//         style: const TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
-//       ),
-//     );
-//   }
-// }
+  Widget _drawerItem(IconData icon, String title, VoidCallback onTap, bool isDarkMode) {
+    return ListTile(
+      leading: Icon(icon, color: isDarkMode ? Colors.white : Colors.black),
+      title: Text(
+        title,
+        style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+      ),
+      tileColor: isDarkMode ? Colors.black : Colors.white,
+      onTap: onTap,
+    );
+  }
+}

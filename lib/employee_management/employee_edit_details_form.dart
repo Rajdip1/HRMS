@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
 
 class EmployeeEditDetailsForm extends StatefulWidget {
   const EmployeeEditDetailsForm({super.key, required this.empId});
@@ -106,12 +109,15 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); // Listen for theme changes
+    bool isDarkMode = themeProvider.themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Profile"),
-        backgroundColor: Colors.white,
+        title: Text("Edit Profile",style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),),
+        backgroundColor: isDarkMode ? Colors.black : Colors.white,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Form(
@@ -119,61 +125,65 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildSectionTitle("Personal Detail"),
-              buildTextField("Name",nameController,'Enter your name'),
-              buildTextField("Address", addressController,'Enter your address'),
-              buildTextField("Email", emailController,'Enter your email'),
-              buildTextField("Phone No", phoneController,'Enter your phone number'),
-              buildTextField("Date of Birth", dateOfBirthController,'Enter your date of birth'),
+              buildSectionTitle("Personal Detail",isDarkMode),
+              buildTextField("Name",nameController,'Enter your name',isDarkMode),
+              buildTextField("Address", addressController,'Enter your address',isDarkMode),
+              buildTextField("Email", emailController,'Enter your email',isDarkMode),
+              buildTextField("Phone No", phoneController,'Enter your phone number',isDarkMode),
+              buildTextField("Date of Birth", dateOfBirthController,'Enter your date of birth',isDarkMode),
               SizedBox(height: 10),
-              buildDropdownField("Gender", ['Male','Female','Other'],selectGender,
+              buildDropdownField("Gender", ['Male','Female','Other'],selectGender, isDarkMode,
                   (newVal) {
                 setState(() {
                   selectGender = newVal!;
                 });
               }),
               SizedBox(height: 10),
-              buildDropdownField("Marital Status", ['Single','Married'],selectMaritaleStatus,
+              buildDropdownField("Marital Status", ['Single','Married'],selectMaritaleStatus, isDarkMode,
                   (newVal) {
                 setState(() {
                   selectMaritaleStatus = newVal!;
                 });
                   }),
               SizedBox(height: 10),
-              buildSectionTitle("Company Detail"),
-              buildTextField("Branch", branchController,'Enter your branch'),
-              buildTextField("Department", departmentController,'Enter your department'),
-              buildTextField("Supervisor", supervisorController,'Enter your supervisor'),
-              buildTextField("Employment Type", empTypeController,'Enter your employment type'),
-              buildTextField("Joining Date", joiningDateController,'Enter your date of joining'),
-              buildTextField("Office Time", officeTimeController,'Enter your office come time'),
+              buildSectionTitle("Company Detail",isDarkMode),
+              buildTextField("Branch", branchController,'Enter your branch',isDarkMode),
+              buildTextField("Department", departmentController,'Enter your department',isDarkMode),
+              buildTextField("Supervisor", supervisorController,'Enter your supervisor',isDarkMode),
+              buildTextField("Employment Type", empTypeController,'Enter your employment type',isDarkMode),
+              buildTextField("Joining Date", joiningDateController,'Enter your date of joining',isDarkMode),
+              buildTextField("Office Time", officeTimeController,'Enter your office come time',isDarkMode),
               SizedBox(height: 10),
-              // buildSectionTitle("Leave Detail"),
-              // buildTextField("Leave Allocated", "12"),
-              // buildTextField("Sick Leave", "1"),
-              // buildTextField("Paid Leave", "1"),
-              // buildTextField("Urgent Leave", "1"),
-              // buildTextField("Unpaid Leave", "1"),
-              // buildTextField("Annual Leave", "1"),
-              // SizedBox(height: 10),
-              buildSectionTitle("Bank Detail"),
-              buildTextField("Bank Name", bankNameController,'Enter your bank name'),
-              buildTextField("Bank Account Number", bankAccNumController,'Enter your bank account number'),
-              buildTextField("Account Holder Name", bankAccHolderNameController,'Enter account holder name'),
-              buildTextField("Bank Account Type", bankAccTypeController,'Enter account type'),
+
+              buildSectionTitle("Bank Detail",isDarkMode),
+              buildTextField("Bank Name", bankNameController,'Enter your bank name',isDarkMode),
+              buildTextField("Bank Account Number", bankAccNumController,'Enter your bank account number',isDarkMode),
+              buildTextField("Account Holder Name", bankAccHolderNameController,'Enter account holder name',isDarkMode),
+              buildTextField("Bank Account Type", bankAccTypeController,'Enter account type',isDarkMode),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      if(_formKey.currentState!.validate()) {
-                        // add();
-                        updateRequest();
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                    child: Text("Submit"),
+                  SizedBox(
+                    width: 300,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if(_formKey.currentState!.validate()) {
+                          // add();
+                          updateRequest();
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isDarkMode ? Colors.grey[800] : Colors.white,
+                        foregroundColor: isDarkMode ? Colors.white : Colors.black, // Change text color
+                        elevation: 10,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Text("Submit"),
+                    ),
                   ),
 
                   // ElevatedButton(
@@ -191,38 +201,44 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
     );
   }
 
-  Widget buildSectionTitle(String title) {
+  Widget buildSectionTitle(String title, bool isDarkMode) {
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 5),
       child: Text(
         title,
-        style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+        style: TextStyle(color: isDarkMode ? Colors.white : Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );
   }
 
-  Widget buildTextField(String label, TextEditingController controller, String errorMessage) {
+  Widget buildTextField(String label, TextEditingController controller, String errorMessage, bool isDarkMode) {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
+        style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
         controller: controller,
         validator: (val) => val!.isEmpty ? errorMessage : null,
-        decoration: InputDecoration(labelText: label, border: OutlineInputBorder()),
+        decoration: InputDecoration(
+            labelText: label,
+            labelStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+            fillColor: isDarkMode ? Colors.grey[900] : Colors.white,
+            border: OutlineInputBorder()
+        ),
       ),
     );
   }
 
-  Widget buildDropdownField(String label, List<String> option, String selectedValue, ValueChanged<String?> onChanged) {
+  Widget buildDropdownField(String label, List<String> option, String selectedValue,bool isDarkMode, ValueChanged<String?> onChanged) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: DropdownButtonFormField<String>(
         value: selectedValue,
-        dropdownColor: Colors.white,
+        dropdownColor: isDarkMode ? Colors.grey[900] : Colors.white,
         decoration: InputDecoration(
           labelText: label,
-          labelStyle: TextStyle(color: Colors.black),
+          labelStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
           filled: true,
-          fillColor: Colors.white,
+          fillColor: isDarkMode ? Colors.grey[900] : Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
             borderSide: BorderSide.none,
@@ -231,7 +247,7 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
         items: option.map((String item) {
           return DropdownMenuItem<String>(
             value: item,
-            child: Text(item, style: TextStyle(color: Colors.black)),
+            child: Text(item, style: TextStyle(color: isDarkMode ? Colors.white : Colors.black)),
           );
         }).toList(),
         onChanged: onChanged,

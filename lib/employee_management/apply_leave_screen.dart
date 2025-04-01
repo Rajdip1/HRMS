@@ -47,6 +47,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
           child: Column(
             children: [
               EditableLeaveDetail(controller: nameController, label: 'Name'),
+              SizedBox(height: 5,),
               DropdownButtonFormField<String>(
                 value: selectedLeaveType,
                 decoration: const InputDecoration(
@@ -65,8 +66,11 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                   });
                 },
               ),
+              SizedBox(height: 5,),
               EditableLeaveDetail(controller: causeController, label: 'Cause'),
+              SizedBox(height: 5,),
               EditableLeaveDetail(controller: fromController, label: 'From'),
+              SizedBox(height: 5,),
               EditableLeaveDetail(controller: toController, label: 'To'),
               const SizedBox(height: 20),
               Center(
