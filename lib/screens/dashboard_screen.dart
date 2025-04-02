@@ -203,7 +203,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(18),
               child: Image.asset(
-                'assets/HR project graph.png',
+                'assets/project_graph.jpg',
                 fit: BoxFit.contain,
               ),
             ),
