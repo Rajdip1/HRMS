@@ -107,7 +107,7 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Text(
-        '$label: $value',
+        '$label: ${value ?? 'Not Available'}',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
