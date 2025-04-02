@@ -10,9 +10,9 @@ import 'package:HRMS/screens/project_section_screen.dart';
 import 'package:HRMS/services/auth_service.dart';
 import 'package:HRMS/screens/Department_screen.dart';
 import 'package:HRMS/screens/clients_section.dart';
-import '../../providers/theme_provider.dart';
-import '../attendance_screen.dart';
-import '../employee_management_screen.dart';
+import 'package:HRMS/providers/theme_provider.dart';
+import 'package:HRMS/screens/attendance_screen.dart';
+import 'package:HRMS/screens/employee_management_screen.dart';
 
 typedef NavigateCallback = void Function(Widget);
 
@@ -31,69 +31,106 @@ class DrawerMenu extends StatelessWidget {
         children: [
           _buildDrawerHeader(),
           _buildExpansionTile("Company Management", Icons.business_center, [
-            _buildListTile("Department", Icons.account_balance, DepartmentScreen(), context, textColor),
-          ], textColor),
+            _buildListTile("Department", Icons.account_balance, DepartmentScreen(), context),
+          ]),
           _buildExpansionTile("Employee Management", Icons.people, [
-            _buildListTile("Employees", Icons.person, EmployeeManagementScreen(), context, textColor),
-            _buildListTile("Update Request", Icons.update, UpdateRequestScreen(), context, textColor),
-          ], textColor),
+            _buildListTile("Employees", Icons.person, EmployeeManagementScreen(), context),
+            _buildListTile("Update Request", Icons.update, UpdateRequestScreen(), context),
+          ]),
           _buildExpansionTile("Attendance Section", Icons.calendar_month, [
-            _buildListTile("Attendance", Icons.calendar_today, AttendanceScreen(), context, textColor),
-          ], textColor),
+            _buildListTile("Attendance", Icons.calendar_today, AttendanceScreen(), context),
+          ]),
           _buildExpansionTile("Project Management", Icons.add_chart, [
-            _buildListTile("Project", Icons.apps_sharp, ProjectSectionScreen(), context, textColor),
-            _buildListTile("Clients", Icons.favorite, ClientsScreen(), context, textColor),
-          ], textColor),
+            _buildListTile("Project", Icons.apps_sharp, ProjectSectionScreen(), context),
+            _buildListTile("Clients", Icons.favorite, ClientsScreen(), context),
+          ]),
           _buildExpansionTile("Leave Management", Icons.time_to_leave, [
-            _buildListTile("Leave Request", Icons.request_page, LeaveRequestsScreen(), context, textColor),
-            _buildListTile("Leave Approval", Icons.approval, LeaveApprovalScreen(), context, textColor),
-            _buildListTile("Leave Reject", Icons.cancel, LeaveRejectScreen(), context, textColor),
-          ], textColor),
-          _buildListTile("Settings", Icons.settings, SettingsScreen(), context, textColor),
+            _buildListTile("Leave Request", Icons.request_page, LeaveRequestsScreen(), context),
+            _buildListTile("Leave Approval", Icons.approval, LeaveApprovalScreen(), context),
+            _buildListTile("Leave Reject", Icons.cancel, LeaveRejectScreen(), context),
+          ]),
+          _buildListTile("Settings", Icons.settings, SettingsScreen(), context),
           ListTile(
-            leading: Icon(Icons.logout, color: textColor),
-            title: Text("Log out", style: TextStyle(color: textColor)),
+            leading: Icon(Icons.logout, color: Colors.blue), // Solid blue icon
+            title: _buildGradientText("Log out"), // Gradient text effect
             onTap: () async {
               await AuthServiceMethods().SignOut();
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignInScreen()));
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (context) => SignInScreen()));
             },
           ),
+
+
         ],
       ),
     );
   }
-
   Widget _buildDrawerHeader() {
     return DrawerHeader(
       decoration: BoxDecoration(color: Colors.blue),
       child: Row(
         children: [
-          Image.asset('assets/illustration.png', height: 150, width: 150),
+          Image.asset('assets/illustration.png', height: 140, width: 140),
           SizedBox(width: 10),
-          Text(
-            'HRMS',
-            style: TextStyle(color: Colors.black, fontSize: 26, fontWeight: FontWeight.bold),
+          ShaderMask(
+            shaderCallback: (bounds) => LinearGradient(
+              colors: [Colors.white, Colors.lightBlueAccent],
+            ).createShader(bounds),
+            child: Text(
+              'HRMS',
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+                color: Colors.white, // Required to make the shader effect visible
+                shadows: [
+                  Shadow(
+                    color: Colors.black.withOpacity(0.4),
+                    offset: Offset(2, 2),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildListTile(String title, IconData icon, Widget screen, BuildContext context, Color textColor) {
+  Widget _buildExpansionTile(String title, IconData icon, List<Widget> children) {
+    return ExpansionTile(
+      leading: Icon(icon, color: Colors.blue),
+      title: _buildGradientText(title),
+      children: children,
+    );
+  }
+
+  Widget _buildListTile(String title, IconData icon, Widget destination, BuildContext context) {
     return ListTile(
-      leading: Icon(icon, color: textColor),
-      title: Text(title, style: TextStyle(color: textColor)),
+      leading: Icon(icon, color: Colors.blue),
+      title: _buildGradientText(title),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => destination));
       },
     );
   }
 
-  Widget _buildExpansionTile(String title, IconData icon, List<Widget> children, Color textColor) {
-    return ExpansionTile(
-      leading: Icon(icon, color: textColor),
-      title: Text(title, style: TextStyle(color: textColor)),
-      children: children,
+
+  Widget _buildGradientText(String text) {
+    return ShaderMask(
+        shaderCallback: (bounds) => const LinearGradient(
+          colors: [Colors.blue, Colors.purple],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ).createShader(bounds),
+        child: Text(
+            text,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white, // Required to make gradient visible
+            ),
+        ),
     );
   }
 }

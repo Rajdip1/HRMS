@@ -37,6 +37,62 @@ class _ProjectSectionScreenState extends State<ProjectSectionScreen> {
       startDate: "30 Jan 2025",
       dueDate: "24 April 2025",
     ),
+    ProjectData(
+      title: "Rating Sentiment Analysis",
+      client: "Kartik Mishra",
+      status: "On Hold",
+      priority: "Medium",
+      isActive: false,
+      startDate: "12 Dec 2025",
+      dueDate: "12 Feb 2026",
+    ),
+    ProjectData(
+      title: "Software Testing Automation",
+      client: "Mayur Panchal",
+      status: "In Progress",
+      priority: "High",
+      isActive: true,
+      startDate: "22 Feb 2025",
+      dueDate: "28 Feb 2025",
+    ),
+    ProjectData(
+      title: "Face Detector",
+      client: "Apurva Devol",
+      status: "In Progress",
+      priority: "Low",
+      isActive: true,
+      startDate: "30 Jan 2025",
+      dueDate: "24 April 2025",
+    ),
+    ProjectData(
+      title: "Tax Collecter",
+      client: "Samiksha Bhatt",
+      status: "On Hold",
+      priority: "Low",
+      isActive: true,
+      startDate: "28 Jun 2025",
+      dueDate: "28 Aug 2025",
+    ),
+    ProjectData(
+      title: "Online Learning Website",
+      client: "Sukhdev Sukla",
+      status: "Pending",
+      priority: "Medium",
+      isActive: false,
+      startDate: "28 aug 2025",
+      dueDate: "28 oct 2025",
+    ),
+    ProjectData(
+        title: "Online Chatting App",
+        client: "Faiza Malik",
+        status: "In Progress",
+        priority: "Low",
+        isActive: true,
+        startDate: "1 Jan 2025",
+        dueDate: "20 April 2025",
+        ),
+
+
   ];
 
   void addProject(ProjectData project) {

@@ -48,6 +48,32 @@ class _ClientsScreenState extends State<ClientsScreen> {
       'branch': 'Baroda',
       'status': 'Active'
     },
+    {
+      'name': 'Samiksha Bhatt',
+      'email': 'sami4@gmail.com',
+      'phone': '9876856223',
+      'country': 'India',
+      'branch': 'Jaipur',
+      'status': 'InActive'
+    },
+    {
+      'name': 'Sukhdev Sukla',
+      'email': 'sukhdev87@gmail.com',
+      'phone': '9967458341',
+      'country': 'India',
+      'branch': 'Baroda',
+      'status': 'InActive'
+    },
+    {
+      'name': 'Faiza Malik',
+      'email': 'faiza67@gmail.com',
+      'phone': '9233457872',
+      'country': 'India',
+      'branch': 'Mumbai',
+      'status': 'Active'
+    },
+
+
   ];
 
   void deleteClient(int index) {

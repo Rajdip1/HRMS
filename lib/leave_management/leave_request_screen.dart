@@ -26,7 +26,7 @@ class LeaveRequestsScreen extends StatelessWidget {
               Map<String, dynamic> data = request.data() as Map<String, dynamic>;
 
               // Ensure status is not null
-              String status = data['status']?.toString() ?? 'Pending';
+              String status = (data['status'] ?? 'pending').toString();
 
               return Card(
                 margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
@@ -71,7 +71,7 @@ class LeaveRequestsScreen extends StatelessWidget {
                               : Colors.orange,
                         ),
                       ),
-                      if (status == 'Pending') ...[
+                      if (status == 'pending') ...[
                         const SizedBox(height: 12),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -146,6 +146,7 @@ class LeaveRequestsScreen extends StatelessWidget {
   void _updateLeaveStatus(String docId, String status) {
     FirebaseFirestore.instance.collection('leave_requests').doc(docId).update({
       'status': status,
+      'Status': FieldValue.delete(),
     });
   }
 }
