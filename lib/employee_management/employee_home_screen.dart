@@ -42,22 +42,45 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
         iconTheme: IconThemeData(
           color: isDarkMode ? Colors.white : Colors.black,
         ),
-        title: Text(
-          'Employee Home',
-          style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+        title: ShaderMask(
+          shaderCallback: (bounds) => LinearGradient(
+            colors: [Colors.blue.shade400, Colors.blue.shade900],
+          ).createShader(bounds),
+          child: Text(
+            'Employee Home',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ),
       drawer: _widgetDrawer(context, isDarkMode),
       body: Padding(
-        padding: const EdgeInsets.only(top: 10.0),
+        padding: const EdgeInsets.only(top: 8.0),
         child: Center(
           child: Column(
             children: [
-              Text(
-                'Welcome to HRMS',
-                style: TextStyle(
-                  fontSize: 20,
-                  color: isDarkMode ? Colors.white : Colors.black,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: ShaderMask(
+                    shaderCallback: (bounds) => LinearGradient(
+                      colors: [Colors.blue.shade400, Colors.blue.shade900],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ).createShader(bounds),
+                    child: Text(
+                      'Welcome to HRMS',
+                      style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -80,7 +103,7 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
           return const Center(child: Text('No data found'));
         }
 
-        var employeeData = snapshot.data!.data() as Map<String, dynamic>;
+        var employeeData = snapshot.data!.data() as Map<String, dynamic>? ?? {};
 
         return Card(
           color: isDarkMode ? Colors.grey[700] : Colors.white,
@@ -103,11 +126,11 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
     );
   }
 
-  Widget _employeeDetailText(String label, String value, bool isDarkMode) {
+  Widget _employeeDetailText(String label, String ? value, bool isDarkMode) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Text(
-        '$label: ${value ?? 'Not Available'}',
+        '$label: ${value ?? 'Not available'}',
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 16,
@@ -123,7 +146,7 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
       child: ListView(
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(color: isDarkMode ? Colors.black : Colors.blue),
+            decoration: BoxDecoration(color: isDarkMode ? Colors.blue : Colors.blue),
             child: Row(
               children: [
                 Image.asset(
@@ -132,17 +155,32 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
                   width: 150,
                 ),
                 const SizedBox(width: 10),
-                Text(
-                  'HRMS',
-                  style: TextStyle(
-                    color: isDarkMode ? Colors.white : Colors.black,
-                    fontSize: 26,
-                    fontWeight: FontWeight.bold,
+                ShaderMask(
+                  shaderCallback: (bounds) => LinearGradient(
+                    colors: [Colors.white, Colors.lightBlueAccent],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ).createShader(bounds),
+                  child: Text(
+                    'HRMS',
+                    style: TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white, // Ensures gradient visibility
+                      shadows: [
+                        Shadow(
+                          color: Colors.black.withOpacity(0.4),
+                          offset: Offset(2, 2),
+                          blurRadius: 4,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
             ),
           ),
+          // Drawer items
           _drawerItem(Icons.person, 'Edit Profile', () {
             Navigator.push(
               context,
@@ -178,16 +216,31 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
       ),
     );
   }
+  Widget _buildGradientText(String text) {
+    return ShaderMask(
+      shaderCallback: (bounds) => const LinearGradient(
+        colors: [Colors.blue, Colors.purple], // Gradient colors
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ).createShader(bounds),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Colors.white, // Required to make gradient visible
+        ),
+      ),
+    );
+  }
 
   Widget _drawerItem(IconData icon, String title, VoidCallback onTap, bool isDarkMode) {
     return ListTile(
-      leading: Icon(icon, color: isDarkMode ? Colors.white : Colors.black),
-      title: Text(
-        title,
-        style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
-      ),
-      tileColor: isDarkMode ? Colors.black : Colors.white,
-      onTap: onTap,
+        leading: Icon(icon, color: Colors.blue),
+        title: _buildGradientText(title),
+        tileColor: isDarkMode ? Colors.black : Colors.white,
+        onTap: onTap,
     );
   }
+
 }

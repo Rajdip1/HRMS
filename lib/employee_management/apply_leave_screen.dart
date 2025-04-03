@@ -17,7 +17,7 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String selectedLeaveType = 'Casual Leave';
-  final List<String> leaveTypes = ['Sick Leave', 'Annual Leave', 'Casual Leave'];
+  final List<String> leaveTypes = ['Sick Leave', 'Annual Leave', 'Casual Leave','Half Leave'];
 
   applyLeave() async {
     await FirebaseFirestore.instance.collection("leave_requests").add({

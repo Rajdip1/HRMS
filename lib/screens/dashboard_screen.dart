@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:HRMS/screens/widgets/drawer_menu.dart';
@@ -17,6 +19,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int totalLeaveReq = 0;
   int pendingLeaveCount = 0;
 
+  StreamSubscription? _totalEmpSub;
+  StreamSubscription? _totalLeaveReqSub;
+  StreamSubscription? _pendingReqSub;
 
   @override
   void initState() {
@@ -29,9 +34,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void getTotalEmp() async {
     try {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("users").get();
-      setState(() {
-        totalEmp = snapshot.size;  //it will count number of employees from DB
+      _totalEmpSub = await FirebaseFirestore.instance.collection("users").snapshots().listen((snapshot){
+        setState(() {
+          totalEmp = snapshot.size;
+        });
       });
     }
     catch (e) {
@@ -41,9 +47,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void getTotalLeaveReqCount() async {
     try {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("leave_requests").get();
-      setState(() {
-        totalLeaveReq = snapshot.size;  //it will count number of employees from DB
+      _totalLeaveReqSub = await FirebaseFirestore.instance.collection("leave_requests").snapshots().listen((snapshot){
+        setState(() {
+          totalLeaveReq = snapshot.size;  //it will count number of employees from DB
+        });
       });
     }
     catch (e) {
@@ -53,15 +60,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   void getPendingLeaveCount() async {
     try {
-      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection("leave_requests").where('Status', isEqualTo: 'pending').get();
-
-      setState(() {
-        pendingLeaveCount = snapshot.size;
+      _pendingReqSub = await FirebaseFirestore.instance.collection("leave_requests").where('Status', isEqualTo: 'pending').snapshots().listen((snapshot){
+        setState(() {
+          pendingLeaveCount = snapshot.size;
+        });
       });
+
     }
     catch (e) {
       print('Error getting in pending leave count: $e');
     }
+  }
+
+  // avoid memory leaks
+  @override
+  void dispose() {
+    _totalEmpSub?.cancel();
+    _totalLeaveReqSub?.cancel();
+    _pendingReqSub?.cancel();
+    super.dispose();
   }
 
 
