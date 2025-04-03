@@ -11,33 +11,6 @@ class _ProjectSectionScreenState extends State<ProjectSectionScreen> {
 
   List<ProjectData> projects = [
     ProjectData(
-      title: "Apart",
-      client: "Kartik Mishra",
-      status: "On Hold",
-      priority: "Medium",
-      isActive: false,
-      startDate: "12 Dec 2025",
-      dueDate: "12 Feb 2026",
-    ),
-    ProjectData(
-      title: "Teaser",
-      client: "Mayur Panchal",
-      status: "In Progress",
-      priority: "High",
-      isActive: true,
-      startDate: "22 Feb 2025",
-      dueDate: "28 Feb 2025",
-    ),
-    ProjectData(
-      title: "Super Model",
-      client: "Apurva Devol",
-      status: "In Progress",
-      priority: "Low",
-      isActive: true,
-      startDate: "30 Jan 2025",
-      dueDate: "24 April 2025",
-    ),
-    ProjectData(
       title: "Rating Sentiment Analysis",
       client: "Kartik Mishra",
       status: "On Hold",
