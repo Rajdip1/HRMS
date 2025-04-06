@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; // For formatting the date and time
 
 class ApplyLeaveScreen extends StatefulWidget {
   const ApplyLeaveScreen({super.key});
@@ -17,21 +18,49 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String selectedLeaveType = 'Casual Leave';
-  final List<String> leaveTypes = ['Sick Leave', 'Annual Leave', 'Casual Leave','Half Leave'];
+  final List<String> leaveTypes = ['Sick Leave', 'Annual Leave', 'Casual Leave', 'Half Leave'];
 
   applyLeave() async {
     await FirebaseFirestore.instance.collection("leave_requests").add({
       'EmployeeName': nameController.text,
       'Leave Type': selectedLeaveType,
-      'Cause' : causeController.text,
-      'From' : fromController.text,
-      'To' : toController.text,
+      'Cause': causeController.text,
+      'From': fromController.text,
+      'To': toController.text,
       'Status': 'pending',
       'time stamp': FieldValue.serverTimestamp()
     });
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Leave Applied Successfully!')),
     );
+  }
+
+  Future<void> selectDateTime(TextEditingController controller) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickedDate != null) {
+      TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+      );
+
+      if (pickedTime != null) {
+        final DateTime finalDateTime = DateTime(
+          pickedDate.year,
+          pickedDate.month,
+          pickedDate.day,
+          pickedTime.hour,
+          pickedTime.minute,
+        );
+        String formatted = DateFormat('yyyy-MM-dd HH:mm').format(finalDateTime);
+        controller.text = formatted;
+      }
+    }
   }
 
   @override
@@ -42,12 +71,12 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(  // Move the Form here
+        child: Form(
           key: _formKey,
           child: Column(
             children: [
               EditableLeaveDetail(controller: nameController, label: 'Name'),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5),
               DropdownButtonFormField<String>(
                 value: selectedLeaveType,
                 decoration: const InputDecoration(
@@ -66,12 +95,40 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
                   });
                 },
               ),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5),
               EditableLeaveDetail(controller: causeController, label: 'Cause'),
-              SizedBox(height: 5,),
-              EditableLeaveDetail(controller: fromController, label: 'From'),
-              SizedBox(height: 5,),
-              EditableLeaveDetail(controller: toController, label: 'To'),
+              const SizedBox(height: 5),
+
+
+              // FROM date-time picker
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: TextFormField(
+                  controller: fromController,
+                  readOnly: true,
+                  onTap: () => selectDateTime(fromController),
+                  decoration: const InputDecoration(
+                    labelText: 'From',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.calendar_today), // Added icon here
+                  ),
+                ),
+              ),
+
+              // TO date-time picker
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: TextFormField(
+                  controller: toController,
+                  readOnly: true,
+                  onTap: () => selectDateTime(toController),
+                  decoration: const InputDecoration(
+                    labelText: 'To',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.calendar_today), // Added icon here
+                  ),
+                ),
+              ),
               const SizedBox(height: 20),
               Center(
                 child: SizedBox(
@@ -114,14 +171,14 @@ class EditableLeaveDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: TextFormField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: TextFormField(
+            controller: controller,
+            decoration: InputDecoration(
+              labelText: label,
+              border: const OutlineInputBorder(),
+            ),
         ),
-      ),
     );
   }
 }
