@@ -2,8 +2,9 @@ import 'package:HRMS/authentication%20screens/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
+import '../employee_management/employee_home_screen.dart';
 import '../providers/theme_provider.dart';
+import '../screens/dashboard_screen.dart';
 import '../services/auth_service.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -24,6 +25,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
 
   String? roleError; // Variable to store role selection error message
+
+  //Sign up function
+  signUp() async {
+    String email = emailController.text;
+    String password = passwordController.text;
+    
+    try {
+      bool isSuccess =  await AuthServiceMethods().register(email, password, selectedRole!);
+      if(isSuccess) {
+        navigationProfile(selectedRole!);
+      }
+      else {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sign Up is failed')));
+      }
+    }
+    catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sign Up is failed: $e')));
+    }
+  }
+
+  // Function for role-based navigation
+  navigationProfile(String role) {
+    if (role == 'HR') {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => DashboardScreen()));
+    } else if (role == 'Employee') {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => EmployeeHomeScreen()));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,7 +196,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                                       // Handle sign-in logic here
                                     }
-                                    AuthServiceMethods().register(email, password,selectedRole!);
+                                    // AuthServiceMethods().register(email, password,selectedRole!);
+                                    signUp();
                                   },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: Size(300, 50),

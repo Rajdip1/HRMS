@@ -2,13 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
 import '../models/MyUser.dart';
 
 class AuthServiceMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
 
   //create user obj based on FirebaseUser
   MyUser? _userFromFirebaseUser(User? user) {
@@ -22,7 +20,7 @@ class AuthServiceMethods {
   }
 
   //sign up function
-  Future register(String email, String password, String role) async {
+  Future<bool> register(String email, String password, String role) async {
     try {
       UserCredential uc = await _auth.createUserWithEmailAndPassword(email: email, password: password);
 
@@ -37,13 +35,15 @@ class AuthServiceMethods {
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
             backgroundColor: Colors.blue,
-            textColor: Colors.white,
+            textColor: Colors.black,
             fontSize: 16.0
         );
       });
+      return true;
     }
     catch (e) {
       print(e);
+      return false;
     }
   }
 
