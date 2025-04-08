@@ -141,7 +141,6 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
                   }),
               SizedBox(height: 10),
               buildSectionTitle("Company Detail",isDarkMode),
-              buildTextField("Branch", branchController,'Enter your branch',isDarkMode),
               buildTextField("Department", departmentController,'Enter your department',isDarkMode),
               buildTextField("Supervisor", supervisorController,'Enter your supervisor',isDarkMode),
               buildTextField("Employment Type", empTypeController,'Enter your employment type',isDarkMode),
@@ -198,18 +197,61 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
   }
 
   Widget buildTextField(String label, TextEditingController controller, String errorMessage, bool isDarkMode) {
+    bool isDateField = label == "Date of Birth";
+    bool isTimeField = label == "Office Time";
+
     return Padding(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
-        controller: controller,
-        validator: (val) => val!.isEmpty ? errorMessage : null,
         style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+        controller: controller,
+        readOnly: isDateField || isTimeField,
+        validator: (val) => val!.isEmpty ? errorMessage : null,
         decoration: InputDecoration(
-            labelText: label,
-            labelStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
-            border: OutlineInputBorder(),
-            fillColor: isDarkMode ? Colors.grey[900] : Colors.white
+          labelText: label,
+          labelStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+          fillColor: isDarkMode ? Colors.grey[900] : Colors.white,
+          border: OutlineInputBorder(),
+          suffixIcon: isDateField || isTimeField
+              ? Icon(
+            isDateField ? Icons.calendar_today : Icons.access_time,
+            color: isDarkMode ? Colors.white : Colors.black,
+          )
+              : null,
         ),
+        onTap: () async {
+          if (isDateField) {
+            DateTime? pickedDate = await showDatePicker(
+              context: context,
+              initialDate: DateTime.now(),
+              firstDate: DateTime(1900),
+              lastDate: DateTime.now(),
+              builder: (context, child) {
+                return Theme(
+                  data: isDarkMode ? ThemeData.dark() : ThemeData.light(),
+                  child: child!,
+                );
+              },
+            );
+            if (pickedDate != null) {
+              controller.text = "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+            }
+          } else if (isTimeField) {
+            TimeOfDay? pickedTime = await showTimePicker(
+              context: context,
+              initialTime: TimeOfDay.now(),
+              builder: (context, child) {
+                return Theme(
+                  data: isDarkMode ? ThemeData.dark() : ThemeData.light(),
+                  child: child!,
+                );
+              },
+            );
+            if (pickedTime != null) {
+              controller.text = pickedTime.format(context);
+            }
+          }
+        },
       ),
     );
   }
