@@ -199,28 +199,29 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
   Widget buildTextField(String label, TextEditingController controller, String errorMessage, bool isDarkMode) {
     bool isDateField = label == "Date of Birth";
     bool isTimeField = label == "Office Time";
+    bool isJoiningDate = label == "Joining Date";
 
     return Padding(
       padding: const EdgeInsets.all(10),
       child: TextFormField(
         style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
         controller: controller,
-        readOnly: isDateField || isTimeField,
+        readOnly: isDateField || isTimeField || isJoiningDate,
         validator: (val) => val!.isEmpty ? errorMessage : null,
         decoration: InputDecoration(
           labelText: label,
           labelStyle: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
           fillColor: isDarkMode ? Colors.grey[900] : Colors.white,
           border: OutlineInputBorder(),
-          suffixIcon: isDateField || isTimeField
+          suffixIcon: (isDateField || isJoiningDate || isTimeField)
               ? Icon(
-            isDateField ? Icons.calendar_today : Icons.access_time,
+            isTimeField ? Icons.access_time : Icons.calendar_today,
             color: isDarkMode ? Colors.white : Colors.black,
           )
               : null,
         ),
         onTap: () async {
-          if (isDateField) {
+          if (isDateField || isJoiningDate) {
             DateTime? pickedDate = await showDatePicker(
               context: context,
               initialDate: DateTime.now(),
@@ -234,7 +235,7 @@ class _EmployeeEditDetailsFormState extends State<EmployeeEditDetailsForm> {
               },
             );
             if (pickedDate != null) {
-              controller.text = "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
+              controller.text = "${pickedDate.day.toString().padLeft(2, '0')}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.year}";
             }
           } else if (isTimeField) {
             TimeOfDay? pickedTime = await showTimePicker(

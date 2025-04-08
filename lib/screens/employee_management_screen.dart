@@ -14,15 +14,24 @@ class EmployeeManagementScreen extends StatefulWidget {
 }
 
 class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
-  TextEditingController searchController = TextEditingController();
   String? id = FirebaseAuth.instance.currentUser?.uid;
   Stream<QuerySnapshot>? employeeStream;
+
+  List<DocumentSnapshot> allUsers = [];
+  List<DocumentSnapshot> filteredUsers = [];
+  String searchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    employeeStream = DatabaseMethods().getAllEmployeeDetails();
+    DatabaseMethods().getAllEmployeeDetails().listen((snapshot) {
+      setState(() {
+        allUsers = snapshot.docs;
+        filteredUsers = allUsers;
+      });
+    });
   }
+
 
   // Delete Employee
   deleteData(String empId) async {
@@ -43,6 +52,28 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
           children: [
             Text('All Employee List', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             SizedBox(height: 10),
+
+            // Search bar
+            TextField(
+              decoration: InputDecoration(
+                hintText: 'Search employees',
+                prefixIcon: Icon(Icons.search_rounded),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                )
+              ),
+              onChanged: (value) {
+                searchQuery = value.toLowerCase();
+                setState(() {
+                  searchQuery = value.toLowerCase();
+                  filteredUsers = allUsers.where((doc) {
+                    var userData = doc.data() as Map<String, dynamic>;
+                    var name = userData['Name']?.toLowerCase() ?? '';
+                    return name.contains(searchQuery);
+                  }).toList();
+                });
+              },
+            ),
             Expanded(child: allEmployeeDetails()),
           ],
         ),
@@ -51,59 +82,48 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
   }
 
   Widget allEmployeeDetails() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: employeeStream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-          return Center(child: Text("No employees found"));
-        }
+    if (filteredUsers.isEmpty) {
+      return Center(child: Text("No matching employees"));
+    }
 
-        var users = snapshot.data!.docs;
+    return ListView.builder(
+      itemCount: filteredUsers.length,
+      itemBuilder: (context, index) {
+        var user = filteredUsers[index].data() as Map<String, dynamic>;
+        String empId = filteredUsers[index].id;
 
-        return ListView.builder(
-          itemCount: users.length,
-          itemBuilder: (context, index) {
-            var user = users[index].data() as Map<String, dynamic>;
-            String empId = users[index].id; // Get Firestore document ID
-
-            return Card(
-              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: ListTile(
-                title: Text(user["Name"] ?? "No Name"),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("${user["email"] ?? "No Email"}"),
-                    Text("Role: ${user["role"] ?? "No Role"}"),
-                    Text("Department: ${user["Department"] ?? "Not Assigned"}"),
-                  ],
-                ),
-                leading: Icon(Icons.person),
-                trailing: PopupMenuButton<String>(
-                  onSelected: (value) {
-                    if (value == 'edit_profile') {
-                      // Navigate with selected employeeId
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => EmployeeEditDetailsForm(empId: empId),
-                        ),
-                      );
-                    } else if (value == 'delete') {
-                      deleteData(empId); // Delete using Firestore doc ID
-                    }
-                  },
-                  itemBuilder: (context) => [
-                    PopupMenuItem(value: 'edit_profile', child: Text('Edit Profile')),
-                    PopupMenuItem(value: 'delete', child: Text('Delete')),
-                  ],
-                ),
-              ),
-            );
-          },
+        return Card(
+          margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: ListTile(
+            title: Text(user["Name"] ?? "No Name"),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("${user["email"] ?? "No Email"}"),
+                Text("Role: ${user["role"] ?? "No Role"}"),
+                Text("Department: ${user["Department"] ?? "Not Assigned"}"),
+              ],
+            ),
+            leading: Icon(Icons.person),
+            trailing: PopupMenuButton<String>(
+              onSelected: (value) {
+                if (value == 'edit_profile') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EmployeeEditDetailsForm(empId: empId),
+                    ),
+                  );
+                } else if (value == 'delete') {
+                  deleteData(empId);
+                }
+              },
+              itemBuilder: (context) => [
+                PopupMenuItem(value: 'edit_profile', child: Text('Edit Profile')),
+                PopupMenuItem(value: 'delete', child: Text('Delete')),
+              ],
+            ),
+          ),
         );
       },
     );
