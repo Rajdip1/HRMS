@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // For formatting the date and time
 
@@ -20,9 +21,12 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
   String selectedLeaveType = 'Casual Leave';
   final List<String> leaveTypes = ['Sick Leave', 'Annual Leave', 'Casual Leave', 'Half Leave'];
 
+  final user = FirebaseAuth.instance.currentUser;
+
   applyLeave() async {
     await FirebaseFirestore.instance.collection("leave_requests").add({
       'EmployeeName': nameController.text,
+      'EmployeeEmail': user?.email ?? 'No Email',  //for identification
       'Leave Type': selectedLeaveType,
       'Cause': causeController.text,
       'From': fromController.text,
@@ -30,6 +34,14 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
       'Status': 'pending',
       'time stamp': FieldValue.serverTimestamp()
     });
+
+
+    //cleat the form after clicking button
+    nameController.clear();
+    causeController.clear();
+    fromController.clear();
+    toController.clear();
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Leave Applied Successfully!')),
     );
