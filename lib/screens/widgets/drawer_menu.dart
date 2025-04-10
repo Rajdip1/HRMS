@@ -14,6 +14,8 @@ import 'package:HRMS/providers/theme_provider.dart';
 import 'package:HRMS/screens/attendance_screen.dart';
 import 'package:HRMS/screens/employee_management_screen.dart';
 
+import '../../attendance/scanner_page.dart';
+
 typedef NavigateCallback = void Function(Widget);
 
 class DrawerMenu extends StatelessWidget {
@@ -38,7 +40,7 @@ class DrawerMenu extends StatelessWidget {
             _buildListTile("Update Request", Icons.update, UpdateRequestScreen(), context),
           ]),
           _buildExpansionTile("Attendance Section", Icons.calendar_month, [
-            _buildListTile("Attendance", Icons.calendar_today, AttendanceScreen(), context),
+            _buildListTile("Attendance", Icons.calendar_today, ScannerPage(), context),
           ]),
           _buildExpansionTile("Project Management", Icons.add_chart, [
             _buildListTile("Project", Icons.apps_sharp, ProjectSectionScreen(), context),

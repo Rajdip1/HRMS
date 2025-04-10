@@ -1,3 +1,6 @@
+import 'package:HRMS/attendance/detail_page.dart';
+import 'package:HRMS/attendance/scanned_list_page.dart';
+import 'package:HRMS/attendance/scanner_page.dart';
 import 'package:HRMS/employee_management/notification_management_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:HRMS/authentication screens/sign_in_screen.dart';
@@ -188,10 +191,10 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
               MaterialPageRoute(builder: (context) => EmployeeEditDetailsForm(empId: '')),
             );
           }, isDarkMode),
-          _drawerItem(Icons.schedule, 'Attendance', () {
+          _drawerItem(Icons.person, 'Attendance', () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AttendanceScreen()),
+              MaterialPageRoute(builder: (context) => ScannerPage()),
             );
           }, isDarkMode),
           _drawerItem(Icons.time_to_leave, 'Apply Leave', () {
