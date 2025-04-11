@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:HRMS/screens/employee_management_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:HRMS/screens/widgets/drawer_menu.dart';
@@ -220,7 +219,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(18),
               child: Image.asset(
-                'assets/project_graph.jpg',
+                'assets/graph.jpg',
                 fit: BoxFit.contain,
               ),
             ),

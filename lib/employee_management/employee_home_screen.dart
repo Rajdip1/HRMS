@@ -1,12 +1,9 @@
-import 'package:HRMS/attendance/detail_page.dart';
-import 'package:HRMS/attendance/scanned_list_page.dart';
 import 'package:HRMS/attendance/scanner_page.dart';
 import 'package:HRMS/employee_management/notification_management_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:HRMS/authentication screens/sign_in_screen.dart';
 import 'package:HRMS/employee_management/apply_leave_screen.dart';
 import 'package:HRMS/employee_management/employee_edit_details_form.dart';
-import 'package:HRMS/screens/attendance_screen.dart';
 import 'package:HRMS/screens/settings_screen.dart';
 import 'package:HRMS/services/auth_service.dart';
 import 'package:HRMS/services/database.dart';
@@ -89,6 +86,92 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
               ),
               const SizedBox(height: 20),
               employeeDetails(isDarkMode),
+          SizedBox(height: 20,),
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: 400,
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue.shade400, Colors.blue.shade900], // Gradient from light blue to dark blue
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  "Project Management",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 17, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black), // Changed text color to black
+                ),
+                SizedBox(height: 15),
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.blue.shade600, Colors.blue.shade900], // Blue gradient for the image container
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(18),
+                    child: Image.asset(
+                      'assets/graph.jpg',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  padding: EdgeInsets.all(15.0),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [Colors.blue.shade400, Colors.blue.shade700], // Gradient from light to darker blue
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Task Details", textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black), // Changed text color to black
+                      ),
+                      SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildStatusIndicator("Pending", Colors.pinkAccent, 1),
+                              SizedBox(width: 10),
+                              _buildStatusIndicator("On Hold", Colors.lightBlueAccent, 2),
+                              SizedBox(width: 10),
+                              _buildStatusIndicator("In Progress", Colors.blue, 3),
+                              SizedBox(width: 10),
+                              _buildStatusIndicator("Completed", Colors.pinkAccent, 4),
+                              SizedBox(width: 10),
+                              _buildStatusIndicator("Cancelled", Colors.lightBlueAccent, 2),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
             ],
           ),
         ),
@@ -109,20 +192,24 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
 
         var employeeData = snapshot.data!.data() as Map<String, dynamic>? ?? {};
 
-        return Card(
-          color: isDarkMode ? Colors.grey[700] : Colors.white,
-          elevation: 10,
-          margin: const EdgeInsets.symmetric(horizontal: 15),
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _employeeDetailText('Name', employeeData['Name'], isDarkMode),
-                _employeeDetailText('Email', employeeData['Email'], isDarkMode),
-                _employeeDetailText('Role', 'Employee', isDarkMode),
-                _employeeDetailText('Department', employeeData['Department'], isDarkMode),
-              ],
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          child: Card(
+            color: isDarkMode ? Colors.grey[700] : Colors.white,
+            elevation: 10,
+            margin: const EdgeInsets.symmetric(horizontal: 15),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _employeeDetailText('Name', employeeData['Name'], isDarkMode),
+                  _employeeDetailText('Email', employeeData['Email'], isDarkMode),
+                  _employeeDetailText('Role', 'Employee', isDarkMode),
+                  _employeeDetailText('Department', employeeData['Department'], isDarkMode),
+                  _employeeDetailText('Employment Type', employeeData['Employment Type'], isDarkMode),
+                ],
+              ),
             ),
           ),
         );
@@ -250,6 +337,20 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
         title: _buildGradientText(title),
         tileColor: isDarkMode ? Colors.black : Colors.white,
         onTap: onTap,
+    );
+  }
+
+  Widget _buildStatusIndicator(String status, Color color, int count) {
+    return Row(
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+        ),
+        SizedBox(width: 8),
+        Text("$status ($count)", style: TextStyle(fontSize: 14, color: Colors.white)),
+      ],
     );
   }
 
