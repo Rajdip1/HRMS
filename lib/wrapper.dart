@@ -1,3 +1,4 @@
+import 'package:HRMS/screens/bottom_nav.dart';
 import 'package:HRMS/screens/dashboard_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:HRMS/authentication screens/sign_in_screen.dart';
@@ -39,7 +40,7 @@ class _WrapperState extends State<Wrapper> {
         if(role == 'HR') {
           navigateToScreen(DashboardScreen());
         } else {
-          navigateToScreen(EmployeeHomeScreen());
+          navigateToScreen(BottomNav());
         }
       }
       else {

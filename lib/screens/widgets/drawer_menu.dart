@@ -11,7 +11,6 @@ import 'package:HRMS/services/auth_service.dart';
 import 'package:HRMS/screens/Department_screen.dart';
 import 'package:HRMS/screens/clients_section.dart';
 import 'package:HRMS/providers/theme_provider.dart';
-import 'package:HRMS/screens/attendance_screen.dart';
 import 'package:HRMS/screens/employee_management_screen.dart';
 
 import '../../attendance/scanner_page.dart';

@@ -1,8 +1,5 @@
-import 'package:HRMS/attendance/scanner_page.dart';
-import 'package:HRMS/employee_management/notification_management_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:HRMS/authentication screens/sign_in_screen.dart';
-import 'package:HRMS/employee_management/apply_leave_screen.dart';
 import 'package:HRMS/employee_management/employee_edit_details_form.dart';
 import 'package:HRMS/screens/settings_screen.dart';
 import 'package:HRMS/services/auth_service.dart';
@@ -22,6 +19,7 @@ class EmployeeHomeScreen extends StatefulWidget {
 class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
   final String? id = FirebaseAuth.instance.currentUser?.uid;
   Stream<DocumentSnapshot>? employeeStream;
+
 
   @override
   void initState() {
@@ -278,24 +276,27 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
               MaterialPageRoute(builder: (context) => EmployeeEditDetailsForm(empId: '')),
             );
           }, isDarkMode),
-          _drawerItem(Icons.person, 'Attendance', () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ScannerPage()),
-            );
-          }, isDarkMode),
-          _drawerItem(Icons.time_to_leave, 'Apply Leave', () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ApplyLeaveScreen()),
-            );
-          }, isDarkMode),
-          _drawerItem(Icons.notifications, 'Notification', () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NotificationManagementScreen()),
-            );
-          }, isDarkMode),
+          // _drawerItem(Icons.person, 'Attendance', () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => ScannerPage()),
+          //   );
+          // }, isDarkMode),
+          // _drawerItem(Icons.developer_board, 'Projects', () {
+          //   Navigator.push(context, MaterialPageRoute(builder: (context) => ProjectSectionScreen()));
+          // }, isDarkMode),
+          // _drawerItem(Icons.time_to_leave, 'Apply Leave', () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => ApplyLeaveScreen()),
+          //   );
+          // }, isDarkMode),
+          // _drawerItem(Icons.notifications, 'Notification', () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => NotificationManagementScreen()),
+          //   );
+          // }, isDarkMode),
           _drawerItem(Icons.settings, 'Settings', () {
             Navigator.push(
               context,
