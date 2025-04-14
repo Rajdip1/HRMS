@@ -83,7 +83,7 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
 
   Widget allEmployeeDetails() {
     if (filteredUsers.isEmpty) {
-      return Center(child: Text("No matching employees"));
+      return Center(child: CircularProgressIndicator());
     }
 
     return ListView.builder(

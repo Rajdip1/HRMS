@@ -5,15 +5,12 @@ import 'package:HRMS/employee_management/update_request_screen.dart';
 import 'package:HRMS/screens/settings_screen.dart';
 import 'package:HRMS/leave_management/leave_approval_screen.dart';
 import 'package:HRMS/leave_management/leave_reject_screen.dart';
-import 'package:HRMS/leave_management/leave_request_screen.dart';
 import 'package:HRMS/screens/project_section_screen.dart';
 import 'package:HRMS/services/auth_service.dart';
 import 'package:HRMS/screens/Department_screen.dart';
 import 'package:HRMS/screens/clients_section.dart';
 import 'package:HRMS/providers/theme_provider.dart';
-import 'package:HRMS/screens/employee_management_screen.dart';
 
-import '../../attendance/scanner_page.dart';
 
 typedef NavigateCallback = void Function(Widget);
 
@@ -35,18 +32,18 @@ class DrawerMenu extends StatelessWidget {
             _buildListTile("Department", Icons.account_balance, DepartmentScreen(), context),
           ]),
           _buildExpansionTile("Employee Management", Icons.people, [
-            _buildListTile("Employees", Icons.person, EmployeeManagementScreen(), context),
+            // _buildListTile("Employees", Icons.person, EmployeeManagementScreen(), context),
             _buildListTile("Update Request", Icons.update, UpdateRequestScreen(), context),
           ]),
-          _buildExpansionTile("Attendance Section", Icons.calendar_month, [
-            _buildListTile("Attendance", Icons.calendar_today, ScannerPage(), context),
-          ]),
+          // _buildExpansionTile("Attendance Section", Icons.calendar_month, [
+          //   _buildListTile("Attendance", Icons.calendar_today, ScannerPage(), context),
+          // ]),
           _buildExpansionTile("Project Management", Icons.add_chart, [
             _buildListTile("Project", Icons.apps_sharp, ProjectSectionScreen(), context),
             _buildListTile("Clients", Icons.favorite, ClientsScreen(), context),
           ]),
           _buildExpansionTile("Leave Management", Icons.time_to_leave, [
-            _buildListTile("Leave Request", Icons.request_page, LeaveRequestsScreen(), context),
+            // _buildListTile("Leave Request", Icons.request_page, LeaveRequestsScreen(), context),
             _buildListTile("Leave Approval", Icons.approval, LeaveApprovalScreen(), context),
             _buildListTile("Leave Reject", Icons.cancel, LeaveRejectScreen(), context),
           ]),
