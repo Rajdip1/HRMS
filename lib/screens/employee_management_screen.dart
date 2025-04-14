@@ -1,3 +1,4 @@
+import 'package:HRMS/employee_management/employee_details_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -99,8 +100,8 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${user["email"] ?? "No Email"}"),
-                Text("Role: ${user["role"] ?? "No Role"}"),
+                // Text("${user["email"] ?? "No Email"}"),
+                // Text("Role: ${user["role"] ?? "No Role"}"),
                 Text("Department: ${user["Department"] ?? "Not Assigned"}"),
               ],
             ),
@@ -117,8 +118,12 @@ class _EmployeeManagementScreenState extends State<EmployeeManagementScreen> {
                 } else if (value == 'delete') {
                   deleteData(empId);
                 }
+                else if(value == 'view_profile') {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => EmployeeDetailsCard(empId: empId)));
+                }
               },
               itemBuilder: (context) => [
+                PopupMenuItem(value: 'view_profile', child: Text('View Profile')),
                 PopupMenuItem(value: 'edit_profile', child: Text('Edit Profile')),
                 PopupMenuItem(value: 'delete', child: Text('Delete')),
               ],
