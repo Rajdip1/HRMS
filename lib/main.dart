@@ -1,5 +1,4 @@
 import 'package:HRMS/providers/theme_provider.dart';
-import 'package:HRMS/screens/bottom_nav.dart';
 import 'package:HRMS/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

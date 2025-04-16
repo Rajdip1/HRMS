@@ -1,3 +1,4 @@
+import 'package:HRMS/attendance/todayscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:HRMS/authentication screens/sign_in_screen.dart';
 import 'package:HRMS/employee_management/employee_edit_details_form.dart';
@@ -297,6 +298,12 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
           //     MaterialPageRoute(builder: (context) => NotificationManagementScreen()),
           //   );
           // }, isDarkMode),
+          _drawerItem(Icons.qr_code, 'QR Generator', () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => QRGeneratorPage()),
+            );
+          }, isDarkMode),
           _drawerItem(Icons.settings, 'Settings', () {
             Navigator.push(
               context,

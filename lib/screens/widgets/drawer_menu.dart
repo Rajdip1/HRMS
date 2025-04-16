@@ -1,3 +1,4 @@
+import 'package:HRMS/attendance/todayscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:HRMS/authentication screens/sign_in_screen.dart';
@@ -47,6 +48,7 @@ class DrawerMenu extends StatelessWidget {
             _buildListTile("Leave Approval", Icons.approval, LeaveApprovalScreen(), context),
             _buildListTile("Leave Reject", Icons.cancel, LeaveRejectScreen(), context),
           ]),
+          _buildListTile("QR Generator", Icons.qr_code, QRGeneratorPage(), context),
           _buildListTile("Settings", Icons.settings, SettingsScreen(), context),
           ListTile(
             leading: Icon(Icons.logout, color: Colors.blue), // Solid blue icon

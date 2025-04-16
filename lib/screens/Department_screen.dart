@@ -9,9 +9,10 @@ class DepartmentScreen extends StatefulWidget {
 
 class _DepartmentScreenState extends State<DepartmentScreen> {
   List<Map<String, dynamic>> departments = [
-    {"id": 1, "name": "alex", "head": "Admin", "employees": 2, "address": "gandhi dham", "phone": "2237466598", "branch": "mumbai", "status": true},
-    {"id": 2, "name": "elevater", "head": "manager", "employees": 3, "address": "ansuya complex", "phone": "9225045625", "branch": "rajkot", "status": true},
-    {"id": 3, "name": "lili", "head": "HR", "employees": 1, "address": "sayaji circle", "phone": "8209126381", "branch": "Jaipur", "status": true},
+    {"id": 1, "name": "IT", "head": "Mayur Sharma", "employees": 3, "address": "A Block", "phone": "2237466598", "status": true},
+    {"id": 2, "name": "Finance", "head": "Shruti Patel", "employees": 4, "address": "B Block", "phone": "9225045625", "status": true},
+    {"id": 3, "name": "Marketing", "head": "Kashish Gupta", "employees": 5, "address": "C Block", "phone": "8209126381", "status": true},
+    {"id": 3, "name": "HR", "head": "Jinal Patel", "employees": 4, "address": "A Block", "phone": "8209126381", "status": true},
   ];
 
   void _deleteDepartment(int index) {
@@ -90,8 +91,8 @@ class DepartmentCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8),
       child: ListTile(
-        title: Text(department['name'], style: TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text("Head: ${department['head']} | Employees: ${department['employees']}"),
+        title: Text(department['name'] ?? 'Unknown', style: TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text("Head: ${department['head'] ?? 'N/A'} | Employees: ${department['employees'] ?? 0}"),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -120,7 +121,6 @@ class _EditDepartmentScreenState extends State<EditDepartmentScreen> {
   late TextEditingController employeesController;
   late TextEditingController addressController;
   late TextEditingController phoneController;
-  late TextEditingController branchController;
 
   @override
   void initState() {
@@ -130,7 +130,6 @@ class _EditDepartmentScreenState extends State<EditDepartmentScreen> {
     employeesController = TextEditingController(text: widget.department?['employees']?.toString() ?? '');
     addressController = TextEditingController(text: widget.department?['address'] ?? '');
     phoneController = TextEditingController(text: widget.department?['phone'] ?? '');
-    branchController = TextEditingController(text: widget.department?['branch'] ?? '');
   }
 
   @override
@@ -140,7 +139,6 @@ class _EditDepartmentScreenState extends State<EditDepartmentScreen> {
     employeesController.dispose();
     addressController.dispose();
     phoneController.dispose();
-    branchController.dispose();
     super.dispose();
   }
 
@@ -153,7 +151,6 @@ class _EditDepartmentScreenState extends State<EditDepartmentScreen> {
         'employees': int.tryParse(employeesController.text) ?? 0,
         'address': addressController.text,
         'phone': phoneController.text,
-        'branch': branchController.text,
         'status': widget.department?['status'] ?? true,
       });
     }
@@ -174,7 +171,6 @@ class _EditDepartmentScreenState extends State<EditDepartmentScreen> {
               TextFormField(controller: employeesController, decoration: InputDecoration(labelText: "Employees"), keyboardType: TextInputType.number),
               TextFormField(controller: addressController, decoration: InputDecoration(labelText: "Address")),
               TextFormField(controller: phoneController, decoration: InputDecoration(labelText: "Phone")),
-              TextFormField(controller: branchController, decoration: InputDecoration(labelText: "Branch")),
               SizedBox(height: 20),
               ElevatedButton(onPressed: _saveDepartment, child: Text("Save")),
             ],

@@ -1,6 +1,8 @@
 import 'package:HRMS/authentication screens/sign_up_screen.dart';
 import 'package:HRMS/employee_management/employee_home_screen.dart';
+import 'package:HRMS/screens/bottom_nav.dart';
 import 'package:HRMS/screens/dashboard_screen.dart';
+import 'package:HRMS/screens/hr_bottom_nav.dart';
 import 'package:HRMS/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,10 +41,10 @@ class _SignInScreenState extends State<SignInScreen> {
   navigationProfile(String role) {
     if (role == 'HR') {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => DashboardScreen()));
+          context, MaterialPageRoute(builder: (context) => HrBottomNav()));
     } else if (role == 'Employee') {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => EmployeeHomeScreen()));
+          context, MaterialPageRoute(builder: (context) => BottomNav()));
     }
   }
 

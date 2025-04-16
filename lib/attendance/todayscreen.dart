@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: QRGeneratorPage(),
-  ));
-}
-
 // ----------------- Form Page -----------------
 class QRGeneratorPage extends StatefulWidget {
   @override
