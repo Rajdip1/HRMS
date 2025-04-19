@@ -16,13 +16,10 @@ class DatabaseMethods {
         .catchError((error) => print("Failed to add employee data: $error"));
   }
 
-
-
   //Read data from database
   Stream<DocumentSnapshot> getEmployeeDetails(String id) {
     return userCollection.doc(id).snapshots();
   }
-
 
   //Read on HR side
   Stream<QuerySnapshot> getAllEmployeeDetails() {
@@ -32,6 +29,10 @@ class DatabaseMethods {
   //delete from HR side
   Future deleteEmployeeDetails(String id) async {
     return await FirebaseFirestore.instance.collection("users").doc(id).delete();
+  }
+
+  Future deleteLeaveRequest(String id) async {
+    return await FirebaseFirestore.instance.collection("leave_requests").doc(id).delete();
   }
 
   //pending req for HR to approve

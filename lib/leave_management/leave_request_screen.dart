@@ -1,3 +1,4 @@
+import 'package:HRMS/services/database.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -50,6 +51,20 @@ class LeaveRequestsScreen extends StatelessWidget {
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
+                          ),
+                          Spacer(),
+                          PopupMenuButton<String>(
+                            onSelected: (value) async {
+                              if(value == 'delete') {
+                                await DatabaseMethods().deleteLeaveRequest(docId);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Deleted Successfully")),
+                                );
+                              }
+                            },
+                            itemBuilder: (context) => [
+                              PopupMenuItem(value: "delete", child: Text("Delete"),)
+                            ],
                           ),
                         ],
                       ),
