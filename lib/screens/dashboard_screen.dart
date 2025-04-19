@@ -141,7 +141,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               childAspectRatio: screenWidth > 600 ? 1.8 : 1.5,
               children: [
                 _buildDashboardCard("Total Employees", "$totalEmp", Icons.people),
-                _buildDashboardCard("Total Departments", "3", Icons.layers),
+                _buildDashboardCard("Total Departments", "4", Icons.layers),
                 // _buildDashboardCard("Total Holidays", "1", Icons.beach_access),
                 // _buildDashboardCard("Paid Leaves", "5", Icons.event_available),
                 _buildDashboardCard("Total Leaves", "$totalLeaveReq", Icons.person_off),

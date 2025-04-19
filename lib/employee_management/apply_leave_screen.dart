@@ -85,90 +85,114 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              EditableLeaveDetail(controller: nameController, label: 'Name'),
-              const SizedBox(height: 5),
-              DropdownButtonFormField<String>(
-                value: selectedLeaveType,
-                decoration: const InputDecoration(
-                  labelText: 'Type',
-                  border: OutlineInputBorder(),
-                ),
-                items: leaveTypes.map((String type) {
-                  return DropdownMenuItem<String>(
-                    value: type,
-                    child: Text(type),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedLeaveType = newValue!;
-                  });
-                },
-              ),
-              const SizedBox(height: 5),
-              EditableLeaveDetail(controller: causeController, label: 'Cause'),
-              const SizedBox(height: 5),
-
-
-              // FROM date-time picker
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: TextFormField(
-                  controller: fromController,
-                  readOnly: true,
-                  onTap: () => selectDateTime(fromController),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                EditableLeaveDetail(controller: nameController, label: 'Name',validator: (value) {
+                  if(value == null || value.isEmpty) {
+                    return "Please enter your name";
+                  }
+                  return null;
+                },),
+                const SizedBox(height: 5),
+                DropdownButtonFormField<String>(
+                  value: selectedLeaveType,
                   decoration: const InputDecoration(
-                    labelText: 'From',
+                    labelText: 'Type',
                     border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.calendar_today), // Added icon here
+                  ),
+                  items: leaveTypes.map((String type) {
+                    return DropdownMenuItem<String>(
+                      value: type,
+                      child: Text(type),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      selectedLeaveType = newValue!;
+                    });
+                  },
+                ),
+                const SizedBox(height: 5),
+                EditableLeaveDetail(controller: causeController, label: 'Cause',validator: (value) {
+                  if(value == null || value.isEmpty) {
+                    return "Please enter your cause";
+                  }
+                  return null;
+                },),
+                const SizedBox(height: 5),
+          
+          
+                // FROM date-time picker
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextFormField(
+                    controller: fromController,
+                    readOnly: true,
+                    onTap: () => selectDateTime(fromController),
+                    decoration: const InputDecoration(
+                      labelText: 'From',
+                      border: OutlineInputBorder(),
+                      suffixIcon: Icon(Icons.calendar_today), // Added icon here
+                    ),
+                      validator: (value) {
+                        if(value == null || value.isEmpty) {
+                          return "Please enter your from";
+                        }
+                        return null;
+                      },
                   ),
                 ),
-              ),
-
-              // TO date-time picker
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: TextFormField(
-                  controller: toController,
-                  readOnly: true,
-                  onTap: () => selectDateTime(toController),
-                  decoration: const InputDecoration(
-                    labelText: 'To',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.calendar_today), // Added icon here
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Center(
-                child: SizedBox(
-                  width: 300,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        applyLeave();
+          
+                // TO date-time picker
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: TextFormField(
+                    controller: toController,
+                    readOnly: true,
+                    onTap: () => selectDateTime(toController),
+                    decoration: const InputDecoration(
+                      labelText: 'To',
+                      border: OutlineInputBorder(),
+                      suffixIcon: Icon(Icons.calendar_today), // Added icon here
+                    ),
+                    validator: (value) {
+                      if(value == null || value.isEmpty) {
+                        return "Please enter your to";
                       }
+                      return null;
                     },
-                    style: ElevatedButton.styleFrom(
-                      elevation: 10,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      backgroundColor: Colors.lightBlue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Center(
+                  child: SizedBox(
+                    width: 300,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          applyLeave();
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        elevation: 10,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        backgroundColor: Colors.lightBlue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: const Text(
+                        'Apply for Leave',
+                        style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     ),
-                    child: const Text(
-                      'Apply for Leave',
-                      style: TextStyle(color: Colors.black, fontSize: 16),
-                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -179,8 +203,9 @@ class _ApplyLeaveScreenState extends State<ApplyLeaveScreen> {
 class EditableLeaveDetail extends StatelessWidget {
   final TextEditingController controller;
   final String label;
+  final String? Function(String?)? validator;
 
-  const EditableLeaveDetail({super.key, required this.controller, required this.label});
+  const EditableLeaveDetail({super.key, required this.controller, required this.label, required this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -192,6 +217,7 @@ class EditableLeaveDetail extends StatelessWidget {
               labelText: label,
               border: const OutlineInputBorder(),
             ),
+          validator: validator,
         ),
     );
   }
