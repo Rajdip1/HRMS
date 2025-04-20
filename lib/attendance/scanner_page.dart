@@ -1,9 +1,7 @@
-import 'dart:convert';
-import 'package:HRMS/attendance/scanned_list_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_mlkit_barcode_scanning/google_mlkit_barcode_scanning.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -18,8 +16,10 @@ class _ScannerPageState extends State<ScannerPage> {
   bool isProcessing = false;
 
   // Company location
-  final double companyLatitude = 22.69942099801424;
-  final double companyLongitude = 73.11914074292383;
+  // final double companyLatitude = 22.69942099801424;
+  // final double companyLongitude = 73.11914074292383;
+  final double companyLatitude = 22.8138651;
+  final double companyLongitude = 73.3436865;
   final double allowedRadiusInMeters = 100;
 
   @override
@@ -75,19 +75,24 @@ class _ScannerPageState extends State<ScannerPage> {
         'idNumber': lines[3].split(':').last.trim(),
         'phone': lines[4].split(':').last.trim(),
         'address': lines[5].split(':').last.trim(),
-        'time': DateTime.now().toString(),
+        'time': Timestamp.now(),
         'latitude': position.latitude.toString(),
         'longitude': position.longitude.toString(),
       };
 
-      final prefs = await SharedPreferences.getInstance();
-      final storedData = prefs.getStringList('scanned_data') ?? [];
-      storedData.add(jsonEncode(dataMap));
-      await prefs.setStringList('scanned_data', storedData);
+      // final prefs = await SharedPreferences.getInstance();
+      // final storedData = prefs.getStringList('scanned_data') ?? [];
+      // storedData.add(jsonEncode(dataMap));
+      // await prefs.setStringList('scanned_data', storedData);
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => ScannedListPage()),
+      await FirebaseFirestore.instance.collection("attendance").add(dataMap);
+
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (_) => ScannedListPage()),
+      // );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("You are checked in")),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

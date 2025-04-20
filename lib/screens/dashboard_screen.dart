@@ -17,10 +17,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   int totalEmp = 0;
   int totalLeaveReq = 0;
   int pendingLeaveCount = 0;
+  int checkIn = 0;
 
   StreamSubscription? _totalEmpSub;
   StreamSubscription? _totalLeaveReqSub;
   StreamSubscription? _pendingReqSub;
+  StreamSubscription? _totalCheckInSub;
 
   @override
   void initState() {
@@ -28,7 +30,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     getTotalEmp();
     getTotalLeaveReqCount();
     getPendingLeaveCount();
-
+    totalCheckInToday();
   }
 
   void getTotalEmp() async {
@@ -71,12 +73,35 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
   }
 
+  void totalCheckInToday() async {
+    try {
+      DateTime now = DateTime.now();
+      DateTime startOfDay = DateTime(now.year, now.month, now.day);
+      DateTime endOfDay = DateTime(now.year, now.month, now.day,23,59,59);
+
+      _totalCheckInSub = FirebaseFirestore.instance
+      .collection("attendance")
+      .where('time', isGreaterThanOrEqualTo: Timestamp.fromDate(startOfDay))
+      .where('time', isLessThanOrEqualTo: Timestamp.fromDate(endOfDay))
+      .snapshots()
+      .listen((snapshot) {
+        setState(() {
+          checkIn = snapshot.size;
+        });
+      });
+    }
+    catch (e) {
+      print('Error getting today count for check-in: $e');
+    }
+  }
+
   // avoid memory leaks
   @override
   void dispose() {
     _totalEmpSub?.cancel();
     _totalLeaveReqSub?.cancel();
     _pendingReqSub?.cancel();
+    _totalCheckInSub?.cancel();
     super.dispose();
   }
 
@@ -146,7 +171,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 // _buildDashboardCard("Paid Leaves", "5", Icons.event_available),
                 _buildDashboardCard("Total Leaves", "$totalLeaveReq", Icons.person_off),
                 _buildDashboardCard("Pending Leave Requests", "$pendingLeaveCount", Icons.pending_actions),
-                _buildDashboardCard("Total Check In Today", "1", Icons.login),
+                _buildDashboardCard("Total Check In Today", "$checkIn", Icons.login),
                 _buildDashboardCard("Total Check Out Today", "0", Icons.logout),
               ],
             ),

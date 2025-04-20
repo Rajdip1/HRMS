@@ -1,3 +1,4 @@
+import 'package:HRMS/attendance/scanned_list_page.dart';
 import 'package:HRMS/attendance/todayscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,6 +12,8 @@ import 'package:HRMS/services/auth_service.dart';
 import 'package:HRMS/screens/Department_screen.dart';
 import 'package:HRMS/screens/clients_section.dart';
 import 'package:HRMS/providers/theme_provider.dart';
+
+import '../../attendance/scanner_page.dart';
 
 
 typedef NavigateCallback = void Function(Widget);
@@ -36,9 +39,10 @@ class DrawerMenu extends StatelessWidget {
             // _buildListTile("Employees", Icons.person, EmployeeManagementScreen(), context),
             _buildListTile("Update Request", Icons.update, UpdateRequestScreen(), context),
           ]),
-          // _buildExpansionTile("Attendance Section", Icons.calendar_month, [
-          //   _buildListTile("Attendance", Icons.calendar_today, ScannerPage(), context),
-          // ]),
+          _buildExpansionTile("Attendance", Icons.calendar_month, [
+            _buildListTile("QR Generator", Icons.qr_code, QRGeneratorPage(), context),
+            _buildListTile("Attendance List", Icons.list_alt_rounded, ScannedListPage(), context),
+          ]),
           _buildExpansionTile("Project Management", Icons.add_chart, [
             _buildListTile("Project", Icons.apps_sharp, ProjectSectionScreen(), context),
             _buildListTile("Clients", Icons.favorite, ClientsScreen(), context),
@@ -48,7 +52,6 @@ class DrawerMenu extends StatelessWidget {
             _buildListTile("Leave Approval", Icons.approval, LeaveApprovalScreen(), context),
             _buildListTile("Leave Reject", Icons.cancel, LeaveRejectScreen(), context),
           ]),
-          _buildListTile("QR Generator", Icons.qr_code, QRGeneratorPage(), context),
           _buildListTile("Settings", Icons.settings, SettingsScreen(), context),
           ListTile(
             leading: Icon(Icons.logout, color: Colors.blue), // Solid blue icon

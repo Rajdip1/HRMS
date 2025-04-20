@@ -1,3 +1,4 @@
+import 'package:HRMS/attendance/scanned_list_page.dart';
 import 'package:HRMS/attendance/todayscreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:HRMS/authentication screens/sign_in_screen.dart';
@@ -304,6 +305,12 @@ class _EmployeeHomeScreenState extends State<EmployeeHomeScreen> {
               MaterialPageRoute(builder: (context) => QRGeneratorPage()),
             );
           }, isDarkMode),
+          // _drawerItem(Icons.calendar_month_rounded, 'Attendance List', () {
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(builder: (context) => ScannedListPage()),
+          //   );
+          // }, isDarkMode),
           _drawerItem(Icons.settings, 'Settings', () {
             Navigator.push(
               context,

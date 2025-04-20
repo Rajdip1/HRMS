@@ -1,9 +1,23 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DetailPage extends StatelessWidget {
   final Map<String, dynamic> data;
 
   const DetailPage({required this.data});
+
+  String _formatTimestamp(dynamic timeField) {
+    if (timeField is Timestamp) {
+      return DateFormat('dd MMM yyyy, hh:mm a').format(timeField.toDate());
+    } else if (timeField is String) {
+      return timeField;
+    } else {
+      return 'Unknown';
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +43,7 @@ class DetailPage extends StatelessWidget {
                 _buildDetailRow('ID Number', data['idNumber']),
                 _buildDetailRow('Phone', data['phone']),
                 _buildDetailRow('Address', data['address']),
-                _buildDetailRow('Scanned At', data['time']),
+                _buildDetailRow('Scanned At', _formatTimestamp(data['time'])),
               ],
             ),
           ),
