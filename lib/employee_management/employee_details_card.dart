@@ -15,16 +15,28 @@ class _EmployeeDetailsCardState extends State<EmployeeDetailsCard> {
     return FirebaseFirestore.instance.collection("users").doc(empId).get();
   }
 
-  void _launchEmail(String email) async {
-    final Uri emailUri = Uri(
-      scheme: 'mailto',
-      path: email,
-    );
-    if (await canLaunchUrl(emailUri)) {
-      await launchUrl(emailUri);
-    } else {
+  // void _launchEmail(String email) async {
+  //   final Uri emailUri = Uri(
+  //     scheme: 'mailto',
+  //     path: email,
+  //   );
+  //   if (await canLaunchUrl(emailUri)) {
+  //     await launchUrl(emailUri);
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Could not launch email app')),
+  //     );
+  //   }
+  // }
+
+  void _launchCall(String phoneNumber) async {
+    final Uri callUri = Uri(scheme: 'tel', path: phoneNumber);
+    if(await canLaunchUrl(callUri)) {
+      await launchUrl(callUri);
+    }
+    else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not launch email app')),
+        SnackBar(content: Text('Could not launch call app')),
       );
     }
   }
@@ -45,7 +57,7 @@ class _EmployeeDetailsCardState extends State<EmployeeDetailsCard> {
 
           var data = snapshot.data!.data() as Map<String, dynamic>;
           final name = data['Name'] ?? 'N/A';
-          final email = data['email'] ?? 'N/A';
+          final email = data['Email'] ?? 'N/A';
           final role = data['role'] ?? 'N/A';
           final department = data['Department'] ?? 'N/A';
           final phone = data['Phone'] ?? 'N/A';
@@ -107,26 +119,23 @@ class _EmployeeDetailsCardState extends State<EmployeeDetailsCard> {
                       ),
                       SizedBox(height: 20),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          // ElevatedButton.icon(
+                          //   onPressed: () => _launchEmail(email),
+                          //   icon: Icon(Icons.email),
+                          //   label: Text("Contact"),
+                          //   style: ElevatedButton.styleFrom(
+                          //     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                          //     shape: RoundedRectangleBorder(
+                          //       borderRadius: BorderRadius.circular(8),
+                          //     ),
+                          //     backgroundColor: Colors.blue,
+                          //   ),
+                          // ),
+                          // Spacer(),
                           ElevatedButton.icon(
-                            onPressed: () => _launchEmail(email),
-                            icon: Icon(Icons.email),
-                            label: Text("Contact"),
-                            style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              backgroundColor: Colors.blue,
-                            ),
-                          ),
-                          Spacer(),
-                          ElevatedButton.icon(
-                            onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Could not launch call app')),
-                              );
-                            },
+                              onPressed: () => _launchCall(phone),
                             icon: Icon(Icons.phone),
                             label: Text(" Call     "),
                             style: ElevatedButton.styleFrom(

@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/theme_provider.dart';
 
 class DetailPage extends StatelessWidget {
   final Map<String, dynamic> data;
@@ -21,6 +24,9 @@ class DetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(title: Text('Scanned Details')),
       body: Padding(
@@ -30,7 +36,7 @@ class DetailPage extends StatelessWidget {
             constraints: BoxConstraints(maxWidth: 600),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: isDarkMode ? Colors.black : Colors.white,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 8)],
             ),

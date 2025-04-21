@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 import 'detail_page.dart';
 
 class ScannedListPage extends StatefulWidget {
@@ -31,6 +33,9 @@ class _ScannedListPageState extends State<ScannedListPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(title: Text("Check-ins")),
       body: StreamBuilder<QuerySnapshot>(
@@ -72,15 +77,15 @@ class _ScannedListPageState extends State<ScannedListPage> {
                     child: Container(
                       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: isDarkMode ? Colors.black : Colors.white,
                         borderRadius: BorderRadius.circular(12),
                         boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 6)]
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(data['name'],style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                          Text(checkInTime,style: TextStyle(fontSize: 14, color: Colors.grey[700])),
+                          Text(data['name'],style: TextStyle(color: isDarkMode ? Colors.white : Colors.black,fontSize: 16,fontWeight: FontWeight.bold),),
+                          Text(checkInTime,style: TextStyle(fontSize: 14, color: Colors.grey[500])),
                         ]
                       ),
                     ),

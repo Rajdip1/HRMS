@@ -16,8 +16,14 @@ class _ScannerPageState extends State<ScannerPage> {
   bool isProcessing = false;
 
   // Company location
+  // final double companyLatitude = 22.540447;
+  // final double companyLongitude = 72.933234;
+
+  //Nishit's Location
   // final double companyLatitude = 22.69942099801424;
   // final double companyLongitude = 73.11914074292383;
+
+  //My Location
   final double companyLatitude = 22.8138651;
   final double companyLongitude = 73.3436865;
   final double allowedRadiusInMeters = 100;

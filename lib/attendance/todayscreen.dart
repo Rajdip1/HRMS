@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:barcode_widget/barcode_widget.dart';
+import 'package:provider/provider.dart';
+import '../providers/theme_provider.dart';
 
 // ----------------- Form Page -----------------
 class QRGeneratorPage extends StatefulWidget {
@@ -86,6 +88,9 @@ class QRDisplayPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDarkMode = themeProvider.themeMode == ThemeMode.dark;
+
     return Scaffold(
       appBar: AppBar(title: Text('Your QR Code')),
       body: Center(
@@ -93,6 +98,7 @@ class QRDisplayPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             BarcodeWidget(
+              color: isDarkMode ? Colors.white : Colors.black,
               barcode: Barcode.qrCode(),
               data: data,
               width: 250,
