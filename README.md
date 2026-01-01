@@ -108,3 +108,8 @@ lib/
 ├── main.dart           # Main entry point of the application
 └── wrapper.dart        # Handles user authentication state
 ```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a pull request or open an issue if you have any suggestions or find any bugs.
+
