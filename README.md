@@ -2,7 +2,8 @@
 
 A comprehensive Flutter-based mobile application for managing human resources within an organization. This application provides role-based access for HR personnel and employees, streamlining various HR processes.
 
-<img width="1919" height="817" alt="image" src="https://github.com/user-attachments/assets/a83d3e05-e11c-409e-89dd-edc2df686667" />
+<img width="1919" height="830" alt="Screenshot 2026-01-24 154933" src="https://github.com/user-attachments/assets/aa9b0a6c-d8a5-4d93-8428-bac004fab570" />
+
 
 ## Features
 
